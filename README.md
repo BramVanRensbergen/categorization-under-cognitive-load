@@ -3,7 +3,7 @@ Categorization under Cognitive Load Experiment
 
 Author: Bram Van Rensbergen (mail@bramvanrensbergen.com) 
 
-Source: https://github.com/BramVanRensbergen/IAT
+Source: https://github.com/BramVanRensbergen/categorization-under-cognitive-load
 
 This is the code to an experiment in which participants categorize abstract stimuli, while simultaneously memorizing a dot pattern.
 The experiment was created for personal use (ongoing research), but anyone may use it if they like.
