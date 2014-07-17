@@ -8,7 +8,6 @@ Source: https://github.com/BramVanRensbergen/categorization-under-cognitive-load
 This is the code to an experiment in which participants learn to categorize abstract stimuli, while simultaneously memorizing a dot pattern.
 The experiment was created for personal use (ongoing research), but anyone may use it if they like.
 
-This project is not finished yet.
 
 To use:
 * Download the project, compile it using Java Development Kit, have the participant run it on a computer with Java Runtime Environment installed.
