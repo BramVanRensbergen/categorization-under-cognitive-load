@@ -23,15 +23,16 @@ Experiment
 
 ###Training Phase
 Overview:
-* Participant learns which stimuli belong to which group
+* Participants learn which stimuli belong to which group
 * They see an image, and are asked to tell which of the two groups it belongs to
 * They receive feedback on whether they were right or not
 * They do not see all stimuli, but a subset of each group 
-  - 6, by default
+  - 6 of each group, by default
   - Which images are selected for the subset is randomized (per participant)
 * After they have categorized both subsets, they are given feedback on their average accuracy on them
 * Training continues until participants reach sufficient accuracy on a number of subsequent blocks (2 blocks with over 90% accuracy, by default)
-* During this entire phase, participants also memorize and re-produce dot-patterns while simultaneously categorizing stimuli
+* During this entire phase, participants also memorize and re-produce dot-patterns while they are categorizing stimuli
+
 
 Flow:
 * Participants see a dot pattern for 750ms
@@ -43,6 +44,7 @@ Flow:
 * This means a block is completed, and participants receive info on their mean accuracy during that block
 * A new block begins, with the same stimuli, in a newly randomized order
 * All above steps continue until sufficient accuracy is obtained for the CATEGORIZATION task
+
 
 Dot patterns:
 * Four dots in a 4x4 grid
@@ -56,37 +58,36 @@ Dot patterns:
   - Mirroring or rotating the pattern cannot create a duplicate
 * See these papers, or the three classes in pattern.validity, for more information.
 
+
 ###Test Phase
 Overview:
 * Participants categorize the entire stimulus-set, without feedback, and without any dot patterns
 * Entire stimulusset is used: 
-  - this includes stimuli not seen during training phase by this participant
+  - This includes stimuli not seen during training phase by this participant
 * Program continues for a set number of blocks, each containing all stimuli once
-  - default: 5 blocks
+  - Default: 5 blocks
+  
   
 Flow:
 * Participants see an image, and indicate which group it belongs to
 * The above continues until all stimuli have been displayed once
-* A new block begins, in a newly randomized order
+* A new block begins, with all images in a newly randomized order
 * The above continues until all blocks are completed (default 5)
+
 
 ###Counterbalance and randomisation
 * Group labels are counterbalanced between participants
-  - counterbalanced based on subject number 
-  - for half of participants, data/options.txt/group1name refers to group1, and group2name to group2, for the other half, this is reversed
-* Participants categorize using two buttons; which button is on the left, and which is on the right, is also counterbalanced between participants
-  - counterbalanced based on subject number
-  - independent of the grouplabel balancing
+  - Counterbalanced based on subject number 
+  - For half of participants, data/options.txt/group1name refers to group1, and group2name to group2, for the other half, this is reversed
+* Participants categorize using two buttons, one for each group
+  - Which button is on the left, and which is on the right, is also counterbalanced between participants, based on subject number
+  - This done independentlu of the grouplabel balancing
 * Half of the participants receive difficult dot patterns, the other half receive easy dot patterns
-  - this is also counterbalanced, based on subject number
-* Which subset of stimuli is displayed during the training phase is randomized
-  - in other words, not everyone sees the same stimuli
+  - This is also counterbalanced, based on subject number
+* Which subset of stimuli is displayed during the training phase is randomized per participant
+  - In other words, not everyone sees the same stimuli
 * Trial order
   - During training phase, blocks contain 2 subsets of 6 trials (by default)
   - During test phase, blocks contain 2 sets of 18 stimuli
-  - The order of presentation within these blocks is fully randomized 
+  - The order of presentation within each block is fully randomized 
   
-
-
-
-
