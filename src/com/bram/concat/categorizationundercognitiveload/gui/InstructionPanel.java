@@ -1,6 +1,5 @@
 /**
-  	This file is part of a task where participants give word associations
-  	under cognitive load.
+  	This file is part of a task where participants categorize under cognitive load.
 	Copyright (C) 2014 Bram Van Rensbergen (mail@bramvanrensbergen.com)
 
     This is free software: you can redistribute it and/or modify
@@ -60,12 +59,14 @@ public class InstructionPanel extends JPanel {
 	
 	InstructionPanel() {
 		setLayout(null); 	//absolute positioning
+		setBackground(Options.backgroundColor);
+		
 		int width = (int) (Options.screenSize.width * 0.8); //80% of screenwidth
 		if (width > 1000) {
 			width = 1000; //max 1000px
 		}
 		
-		int height = 500;
+		int height = Options.screenSize.height - 200 - 35 * 2;
 		
 		textPane = new JEditorPane("text/html", ""); //create text pane, make sure we can use html formatting
 		textPane.setEditable(false);
@@ -104,10 +105,16 @@ public class InstructionPanel extends JPanel {
 	 * Show the indicated page of the instructions.
 	 */
 	public void showMainInstructions(final int pageIndex) {
+		
+		if (Text.textInstructions.size() == 0) { //no instructions where defined, just move to experiment
+			Experiment.displayAndContinue(); 
+			return;
+		}
+		
 		removeActionListeners(nextButton);
 		removeActionListeners(previousButton);
 		
-		if (pageIndex < Text.TEXT_INSTRUCTIONS.length) { 
+		if (pageIndex < Text.textInstructions.size()) { 
 			//not last page
 			nextButton.setText(Text.BTN_NEXT);
 			nextButton.setVisible(true);
@@ -127,44 +134,36 @@ public class InstructionPanel extends JPanel {
 			previousButton.setVisible(false);
 		}
 		
-		if (pageIndex == Text.TEXT_INSTRUCTIONS.length) { 
+		if (pageIndex == Text.textInstructions.size()) { 
 			//last page			
 			nextButton.setText(Text.BTN_BEGIN);
 			nextButton.setVisible(true);
 			nextButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent arg0) { //on click, close the gui		
 				previousButton.setVisible(false);
 				nextButton.setVisible(false);
-				Experiment.xp.displayAndContinue(); 
+				Experiment.displayAndContinue(); 
 			}});
 		}				
-		setInstructions(Text.TEXT_INSTRUCTIONS[pageIndex - 1]);		
+		setInstructions(Text.textInstructions.get(pageIndex - 1));		
 	}
 	
-	public void showFirstBlockPostTrainingInstructions() {
+	public void showPostTrainingInstructions() {
 		mainButton.setVisible(true);
 		mainButton.setText(Text.BTN_CONTINUE);
 		removeActionListeners(mainButton);
 		mainButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent arg0) { //on click, close the gui		
-			Experiment.xp.displayAndContinue(); 
+			Experiment.displayAndContinue(); 
 		}});
-		setInstructions(Text.TEXT_POSTTRAINING_INSTRUCTIONS);	
+		setInstructions(Text.textPosttrainingInstructions);	
 	}
 	
-	/**
-	 * @param lastblock True: show the instructions for the last block
-	 * Last block: generally slightly different from previous interblock instructions, e.g. they may refer to the upcoming block as the last one instead of the next one.
-	 */
-	public void showInterBlockInstructions(boolean lastblock) {
+	public void showHalfwayInstructions() {
 		mainButton.setText(Text.BTN_CONTINUE);
 		removeActionListeners(mainButton);
 		mainButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent arg0) { //on click, close the gui		
-			Experiment.xp.displayAndContinue(); 
+			Experiment.displayAndContinue(); 
 		}});
-		if (lastblock) {
-			setInstructions(Text.TEXT_INTERBLOCK_LAST);
-		} else {
-			setInstructions(Text.TEXT_INTERBLOCK);
-		}
+		setInstructions(Text.textInterblock);
 	}
 	
 	public void showXpOverText() {
@@ -174,9 +173,12 @@ public class InstructionPanel extends JPanel {
 			Experiment.gui.dispose(); 		//remove the layout
 	        System.exit(0); //exit	
 		}});
-		setInstructions(Text.TEXT_XP_OVER_MESSAGE);			
+		setInstructions(Text.textXpOver);			
 	}
 	
+	/**
+	 * Display the indicated text.
+	 */
 	private void setInstructions(String text){
 		Experiment.gui.showCursor();
 		Experiment.gui.bg.removeAll(); 

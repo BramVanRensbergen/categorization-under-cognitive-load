@@ -1,6 +1,5 @@
 /**
-  	This file is part of a task where participants give word associations
-  	under cognitive load.
+  	This file is part of a task where participants categorize under cognitive load.
 	Copyright (C) 2014 Bram Van Rensbergen (mail@bramvanrensbergen.com)
 
     This is free software: you can redistribute it and/or modify
@@ -19,15 +18,17 @@
 
 package com.bram.concat.categorizationundercognitiveload;
 
+import java.io.IOException;
+
 import com.bram.concat.categorizationundercognitiveload.experiment.Experiment;
 
 /**
  * See README for a general overview of this experiment.
  */
-public class AssociationsUnderCognitiveLoad {
+public class CategorizationUnderCognitiveLoad {
 
-	public static void main(String[] args) {		
-		Experiment.xp = new Experiment();			
+	public static void main(String[] args) throws IOException {			
+		Experiment.initialize();	
 	}
 
 }

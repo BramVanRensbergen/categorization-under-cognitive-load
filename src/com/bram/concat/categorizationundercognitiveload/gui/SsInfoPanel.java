@@ -1,6 +1,5 @@
 /**
-  	This file is part of a task where participants give word associations
-  	under cognitive load.
+  	This file is part of a task where participants categorize under cognitive load.
 	Copyright (C) 2014 Bram Van Rensbergen (mail@bramvanrensbergen.com)
 
     This is free software: you can redistribute it and/or modify
@@ -34,6 +33,7 @@ import javax.swing.JTextField;
 import com.bram.concat.categorizationundercognitiveload.Options;
 import com.bram.concat.categorizationundercognitiveload.Text;
 import com.bram.concat.categorizationundercognitiveload.experiment.Experiment;
+import com.bram.concat.categorizationundercognitiveload.experiment.Participant;
 
 /**
  * Panel that asks for the participant's basic info.	
@@ -57,6 +57,7 @@ public class SsInfoPanel extends JPanel {
 	
 	SsInfoPanel() {
 		setLayout(null);		//we use an absolute layout
+		setBackground(Options.backgroundColor);
 		int labelWidth = 250;	//width of each label
 		int formWidth = 125;	//width of each form entry
 		int h = 25; 			//height of each field
@@ -154,7 +155,8 @@ public class SsInfoPanel extends JPanel {
 			}
 								
 			if (valid) { //student number, age, and gender are all set correctly: proceed
-				Experiment.xp.processSsInfo(ssNb, age, gender);				
+				Participant.createParticipant(ssNb, age, gender);				
+				Experiment.showInstructions();
 			} else {
 				JOptionPane.showMessageDialog(null,errorString,"",JOptionPane.ERROR_MESSAGE); //something was not entered correctly: display error, and remain here
 			}

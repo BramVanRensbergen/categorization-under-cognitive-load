@@ -1,0 +1,67 @@
+//Main instructions
+//Can consist of several pages, each of which should start with "@DEFINE textInstructions"
+//Supports html encoding (e.g. <b>this should be bold</b>)
+@DEFINE textInstructions 
+Hallo,
+Ben je klaar om bij te dragen aan wetenschappelijk onderzoek?
+Recent werden er door dr. Snuffleupagus twee nieuwe wezentjes op Mercurius ontdekt, de Mapapilios en de Machaons.
+Deze wezentjes zijn varianten van elkaar, en zijn inheemse soorten die al eeuwen op Mercurius leven.
+Tot nu toe heeft dr. Snuffleupagus slechts een beperkt aantal Mapapilios en Machaons kunnen identificeren omdat ze bijzonder moeilijk van elkaar te onderscheiden zijn. 
+Voor ze haar ontdekking wereldkundig kan maken moet ze een veel groter aantal Mapapilios en Machaons van elkaar onderscheiden hebben.
+Ze roept daarom jouw hulp in aan de hand van volgende taak.
+
+@DEFINE textInstructions
+De Taak bestaat uit twee fases:
+In een eerste fase  krijg je een aantal voorbeelden te zien waarvan dr. Snuffleupagus zeker weet of ze tot de familie van de Mapapilios of de familie van de Machaons behoren. 
+De bedoeling is dat je aan de hand van deze voorbeelden leert welke wezentjes tot de familie van de Mapapilios behoren en welke tot de familie van de Machaons.
+Concreet betekent dit dat dr. Snuffleupagus je een afbeelding van een wezentje zal tonen en dat van jou wordt verwacht dat je aangeeft of het om een Mapapilio of om een Machaon. 
+Na ieder antwoord geeft zij je feedback over je antwoord. 
+Deze feedback kan je gebruiken om te leren welk soort wezentjes tot de familie van de Mapapilios behoren en welke tot de familie van de Machaons. 
+    
+In een tweede fase zal zij je afbeeldingen van wezentjes tonen waarvan zij zelf niet altijd zeker is of ze tot de familie van de Mapapilios of tot de familie van de Machaons behoren. 
+Je kan haar helpen door voor elk wezentje aan te geven of je denkt dat deze behoort tot de familie van de Mapapilios of tot de familie van de Machaons. 
+Gebruik daarvoor de informatie die je hebt geleerd in de eerste fase. 
+
+@DEFINE textInstructions
+Zo meteen zullen we starten met de eerste fase van de taak. 
+Je zal in deze fase wezentjes te zien krijgen waarvan dr. Snuffleupagus  met zekerheid weet of ze behoren tot de familie van de Mapapilios of tot de familie van de Machaons. 
+Geef voor ieder wezentje aan of het een Mapapilio is of een Machaon. 
+Na jullie antwoord zal dr.Snuffleupagus aangeven of je het wezentje correct gecategoriseerd hebt of niet. 
+Op deze manier kan je leren welke soort wezentjes tot de familie van de Mapapilios behoren en welke tot de familie van de Machaons. 
+  
+BELANGRIJK: de eerste fase bestaat uit verschillende blokken, het is logisch dat je in de eerste blok vooral zal moeten gokken of de wezentjes tot de familie van de Mapapilios behoren of tot de familie van de Machaons, omdat je nog geen kennis hebt over welke wezentjes tot de Mapapilios behoren en welke tot de familie van de Machaons.
+Na ieder blok wordt er weergegeven voor hoeveel procent van de wezentjes je de juiste beslissing hebt genomen waarna de volgende blok zal starten. 
+Je kan de feedback van eerdere blokken gebruiken om in de volgende blokken een hoger percentage correct gecategoriseerde wezentjes te bekomen.
+
+Veel succes!
+
+//Displayed after each block during the training phase
+//@ACC@ gets replaced with the actual accuracy.
+@DEFINE textBlockAccuracy
+Je behaalde een score van @ACC@%.
+
+//Displayed after the training phase
+//Supports html formatting
+@DEFINE textPosttrainingInstructions
+De eerste fase van de taak is nu gedaan. Zo meteen zullen we starten met de tweede fase. 
+In deze fase krijgen je wezentjes te zien waarvoor het niet altijd duidelijk is of ze tot de familie van de Mapapilios behoren of tot de familie van de Machaons. 
+Dr. Snuffleupagus vraagt om voor elk van deze wezentjes aan te geven of het volgens jou tot de familie van de Mapapilios behoort of tot de familie van de Machaons.
+
+OPGELET in deze fase krijg je geen feedback over je antwoord. Je kan enkel de informatie die je geleerd hebt in de eerste fase gebruiken om te bepalen of de wezentjes behoren tot de categorie van de Mapapilios of tot de categorie van de Machaons. 
+Je zal in deze taak in totaal 180 wezentjes te zien krijgen. Na 90 wezentjes wordt er kort aangegeven dat je op de helft bent.
+Veel succes.
+
+//Displayed halfway through the test phase
+//Supports html formatting
+@DEFINE textInterblock
+Je kan nu even pauzeren. Klik op 'Klaar' als je aan het volgende deel wil beginnen.
+
+//Displayed at the end of the test phase
+//Supports html formatting
+@DEFINE textXpOver
+Het experiment is afgelopen. Bedankt voor je deelname!
+Je mag nu op de 'Afsluiten' knop klikken.
+
+//Title of the program, in the titlebar. Doesn't really matter, as the program should be run fullscreen.
+@DEFINE textWindowTitle
+Experiment

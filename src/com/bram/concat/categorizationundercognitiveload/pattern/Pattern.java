@@ -1,6 +1,5 @@
 /**
-  	This file is part of a task where participants give word associations
-  	under cognitive load.
+  	This file is part of a task where participants categorize under cognitive load.
 	Copyright (C) 2014 Bram Van Rensbergen (mail@bramvanrensbergen.com)
 
     This is free software: you can redistribute it and/or modify
@@ -56,7 +55,7 @@ public abstract class Pattern {
 	/**
 	 * A pattern that is special in that is empty; used for the pattern-reproduction screen.
 	 */
-	public static NoloadPattern emptyPattern;
+	public static NoloadPattern reproductionPattern;
 		
 	/**
 	 * "High", "Low", or "None"; used when writing away the data, to denote the difficulty of the pattern.

@@ -1,6 +1,5 @@
 /**
-  	This file is part of a task where participants give word associations
-  	under cognitive load.
+  	This file is part of a task where participants categorize under cognitive load.
 	Copyright (C) 2014 Bram Van Rensbergen (mail@bramvanrensbergen.com)
 
     This is free software: you can redistribute it and/or modify
@@ -19,130 +18,111 @@
 
 package com.bram.concat.categorizationundercognitiveload.gui;
 
-import java.awt.Color;
 import java.awt.Font;
-import java.awt.KeyEventDispatcher;
-import java.awt.KeyboardFocusManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.bram.concat.categorizationundercognitiveload.IO;
 import com.bram.concat.categorizationundercognitiveload.Options;
 import com.bram.concat.categorizationundercognitiveload.Text;
 import com.bram.concat.categorizationundercognitiveload.experiment.Experiment;
+import com.bram.concat.categorizationundercognitiveload.experiment.Stimulus;
 import com.bram.concat.categorizationundercognitiveload.pattern.Pattern;
 
 /**
- * Panel used to display the experiment; contains the dot-pattern, a fixation-cross, the pattern-reproduction screen, or a blank screen.
+ * Panel used to display the experiment; contains a stimulus/image, feedback, a dot-pattern, a fixation-cross, a pattern-reproduction screen, or a blank screen.
  */
 @SuppressWarnings("serial")
 public class ExperimentPanel extends JPanel {				
-	
-	/**
-	 * The cue to which the ss is asked to give associations.
-	 */
-	private JLabel cueLabel;
-		
-	/**
-	 * Text that displays the participants first two responses to the cue.
-	 */
-	private JLabel[] previousAssociationLabels;   
 
-	/**
-	 * Displays an error if participant responds too slowly.
-	 */
-	private JLabel tooSlowLabel;
-	
-	/**
-	 * Ss enters their responses i.e. associations in this.
-	 */
-	private JTextField responseField;	
-	
-	/**
-	 * Ss can click this to move to the next cue, because they don't know the word, or because they don't have any more associations.
-	 */
-	private SkipButton skipButton;					  
-	
 	private JLabel fixationCross;
+	
+	/**
+	 * Will hold the figure the participant will judge durign a trial.
+	 */
+	private JLabel stimulusContainer;
+	
+	/**
+	 * Participant uses this to indicate which category he/she believes the stimulus corresponds to.
+	 */
+	private JButton group1button, group2button;
+	
+	/**
+	 * Will hold feedback on either the trial (right/wrong) or the entire block (mean % correct for all trials).
+	 */
+	private JLabel feedbackContainer;
+	
+	/**
+	 * Used to move on the next block, when participant is presented with % correct for the last block.
+	 */
+	private JButton feedbackDoneButton;	
 	
 	/**
 	 * A button the ss can use to indicate he/she finished reproducing the pattern.
 	 */
 	private JButton patternReproductionDoneButton; 
-		
-	/**
-	 * Used to record the time of the first keypress of each association, and to listen to 'enter' to submit an answer.
-	 */
-    private KeyboardFocusManager keyboardManager;
-    
-    /**
-	 * Used to record the time of the first keypress of each association, and to listen to 'enter' to submit an answer.
-	 */
-	private ReponseDispatcher responseDispatcher;
-	
-	/**
-	 * For each association, we record when ss began typing (first key pressed). If this is set to true, timeAtAssociationsFirstKeypress is set at the first keypress.
-	 */
-	private boolean listenToFirstKeypress;
-	
-	/**
-	 * For each association, we record when ss began typing (first key pressed).
-	 */
-	private long timeAtAssociationsFirstKeypress;
 	
 	ExperimentPanel() {				
 		setLayout(null);	//we use absolute positioning
 		setVisible(true);	
+		setBackground(Options.backgroundColor);
+		int w = Options.screenSize.width;
+		int h = Options.screenSize.height;
 		
-		cueLabel = new JLabel("");
-		cueLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		cueLabel.setBounds(Options.screenSize.width / 2 - 400 / 2, 100, 400, 100); //center top
-		cueLabel.setFont(Text.FONT_CUE);
-			
-		previousAssociationLabels = new JLabel[Options.N_ASSOCIATIONS - 1];
-		for (int i = 0; i < Options.N_ASSOCIATIONS - 1; i++) {
-			previousAssociationLabels[i] = new JLabel("");
-			previousAssociationLabels[i].setHorizontalAlignment(SwingConstants.CENTER);
-			previousAssociationLabels[i].setBounds(Options.screenSize.width / 2 - 400 / 2, 150 + (1 + i) * 50, 400, 50); //mid top, below cue
-			previousAssociationLabels[i].setForeground(Color.gray);
-			previousAssociationLabels[i].setFont(Text.FONT_PREVIOUS_RESPONSES);
-		}
+		stimulusContainer = new JLabel("");
+		stimulusContainer.setHorizontalAlignment(SwingConstants.CENTER);
+		int stimSize = Stimulus.maxSize;
+		stimulusContainer.setBounds(w / 2 - stimSize / 2, h / 2 - stimSize / 2, stimSize, stimSize); //center
 		
-		tooSlowLabel = new JLabel(Text.TEXT_TOO_SLOW);
-		tooSlowLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		tooSlowLabel.setBounds(Options.screenSize.width / 2 - 400 / 2, 300, 400, 100);
-		tooSlowLabel.setFont(Text.FONT_TOO_SLOW_MESSAGE);
-		tooSlowLabel.setForeground(Color.red);
+		//each button always corresponds to one group
+		group1button = new JButton(Options.group1name);
+		group2button = new JButton(Options.group2name); 
+		
+		//which of these buttons is on the left, and which on the right, depends on Options.reversedButtonPosition	
+		int leftButtonX = w / 2 - Options.responseButtonWidth - 50;
+		int rightButtonX = w / 2 + 50;
+		
+		int group1buttonX = ( Options.reversedButtonPosition ? rightButtonX : leftButtonX); 
+		int group2buttonX = ( Options.reversedButtonPosition ? leftButtonX  : rightButtonX); 
+		
+		group1button.setBounds(group1buttonX, h / 2 + stimSize / 2 + 100, Options.responseButtonWidth, 50);
+		group2button.setBounds(group2buttonX, h / 2 + stimSize / 2 + 100, Options.responseButtonWidth, 50);
+		
+		group1button.addActionListener(new ResponseListener(1));
+		group2button.addActionListener(new ResponseListener(2));
 
-		responseField = new JTextField(50);
-		responseField.setBounds(Options.screenSize.width/2 - 200 / 2, Options.screenSize.height - 300, 200, 55); //center bottom
-		responseField.setFont(Text.FONT_ANSWER_TEXTFIELD);
+		feedbackContainer = new JLabel("");
+		feedbackContainer.setFont(Text.FONT_INSTRUCTIONS);
+		feedbackContainer.setHorizontalAlignment(SwingConstants.CENTER);
+		int feedbackWidth = Math.max(IO.feedbackRight.getIconWidth(), IO.feedbackWrong.getIconWidth());
+		int feedbackHeight = Math.max(IO.feedbackRight.getIconHeight(), IO.feedbackWrong.getIconHeight());
+		feedbackContainer.setBounds(w / 2 - feedbackWidth / 2, h / 2 - feedbackHeight / 2, feedbackWidth, feedbackHeight); //centered
 		
-		skipButton = new SkipButton();
-		skipButton.setBounds(Options.screenSize.width - 200 - 75, Options.screenSize.height - 50 - 75, 200, 50); //right bottom
+		feedbackDoneButton = new JButton(Text.BTN_CONTINUE);
+		feedbackDoneButton.setBounds(w / 2 - 100 / 2, h / 2 + feedbackHeight / 2 + 50, 200, 50);
+		feedbackDoneButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent arg0) { //on click, start the experiment		
+			Experiment.currentPhase.startNextBlock();
+		}});
 		
 		patternReproductionDoneButton = new JButton(Text.BTN_READY); //add ok button, to end pattern reproduction (not displayed yet)
 		patternReproductionDoneButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent arg0) { //on click, start the experiment		
-			Experiment.xp.correctPatternReproduction();
+			Experiment.currentPhase.correctPatternReproduction();
 		}});
-		int heightOffset = Options.screenSize.height - (Options.screenSize.height - Options.GRID_PIXELSIZE * Pattern.NCELLS) / 4 - 50 / 2; //halfway between grid and bottom		
-		patternReproductionDoneButton.setBounds(Options.screenSize.width / 2 - 100 / 2, heightOffset, 100, 50);
+		int heightOffset = h - (h - Options.GRID_PIXELSIZE * Pattern.NCELLS) / 4 - 50 / 2; //halfway between grid and bottom		
+		patternReproductionDoneButton.setBounds(w / 2 - 100 / 2, heightOffset, 100, 50);
 		
 		fixationCross = new JLabel("+");
 		fixationCross.setFont(new Font("Serif", Font.PLAIN, 50));
-		int size = 30;
-		fixationCross.setBounds(Options.screenSize.width / 2 - size / 2,  Options.screenSize.height / 2 - size / 2, size, size);
-		
-		keyboardManager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-		responseDispatcher = new ReponseDispatcher();
+		int fixationCrossSize = 30;
+		fixationCross.setBounds(w / 2 - fixationCrossSize / 2, h / 2 - fixationCrossSize / 2, fixationCrossSize, fixationCrossSize);
+
 	}		
-	
+
 	/**
 	 * Show a small fixation cross in the center of an otherwise empty screen.
 	 */
@@ -176,124 +156,73 @@ public class ExperimentPanel extends JPanel {
 	}		
 	
 	/**
-	 * Display the indicated cue, so the participant can give associations to it.
-	 * @param word	The cue to be displayed.
+	 * Display the indicated stimulus, which the participant will categorize.
 	 */
-	public void showCue(String word) {
+	public void showStimulus(Stimulus stimulus) {
 		removeAll();
-		cueLabel.setText(word);
-		add(cueLabel);
-		skipButton.setState(Text.BTN_UNKNOWN_CUE);
-		add(skipButton);
-		responseField.setText(""); //remove previous answer
-		add(responseField);
-		for(int i = 0; i < previousAssociationLabels.length; i++) {
-			previousAssociationLabels[i].setText("");
-			add(previousAssociationLabels[i]);
-		}
-		
+		stimulusContainer.setIcon(stimulus.image);		
+		add(stimulusContainer);
+		add(group1button);
+		add(group2button);
 		validate();
 		repaint();
-		listenToFirstKeypress = true;
-		enableKeyListener();
-		responseField.grabFocus(); 		
 	}
 	
 	/**
-	 * Displayed if participant does not start typing within  {@code Options.MAX_RESPONSE_DURATION} MS.
-	 * Count starts when the cue is displayed, or when they submitted a previous association to the cue.
+	 * Show whether the lastly categorized stimulus was categorized correctly.
 	 */
-	public void showTooSlowError() {
+	public void showTrialFeedback(boolean correct) {
+		feedbackContainer.setText("");
+		if (correct) {
+			feedbackContainer.setIcon(IO.feedbackRight);
+		} else {
+			feedbackContainer.setIcon(IO.feedbackWrong);
+		}
 		removeAll();
-		add(tooSlowLabel);		
+		add(feedbackContainer);
 		validate();
 		repaint();
-	}	
+	}
+	
+	/**
+	 * Display the mean accuracy on the just-completed block.
+	 */
+	public void showBlockAccuracy(int accuracy) {
+		feedbackContainer.setIcon(null);
+		String feedback = Text.textBlockAccuracy.replace("@ACC@", accuracy + "");
+		feedbackContainer.setText(feedback);
+		removeAll();
+		add(feedbackContainer);
+		add(feedbackDoneButton);
+		validate();
+		repaint();
+	}
 
 	/**
-	 * Submit the association the participant gave; if it was a first or second association, display it while pp thinks about subsequent associations.
-	 */
-	private void submitResponse(String a) {
-		responseField.setText("");
-		
-		if (Experiment.xp.currentAssociationIndex < Options.N_ASSOCIATIONS) {				 
-			// this was first or second association	
-			previousAssociationLabels[Experiment.xp.currentAssociationIndex - 1].setText(a); //-1 because that var is 1..3 and the array is 0..2		
-			listenToFirstKeypress = true;
-			skipButton.setState(Text.BTN_NO_FURTHER_RESPONSES);
-		} else { 
-			//this was third association
-			disableKeyListener();
-		}
-		Experiment.xp.submitResponse(a, timeAtAssociationsFirstKeypress, System.currentTimeMillis());
-	}
-	
-	/**
 	 * Show the screen in which the ss can reproduce the previously memorized pattern.
+	 * Only used during training phase.
 	 */
 	public void showPatternReproduction() {		
 		removeAll();
-		showPattern(Pattern.emptyPattern);
+		showPattern(Pattern.reproductionPattern);
 		add(patternReproductionDoneButton);
 		validate(); 
 		repaint();	
 	}
 	
-	private class SkipButton extends JButton {
-
-		public String text;
+	private class ResponseListener implements ActionListener {
+		private int groupNb;		
 		
-		private SkipButton() {
-			super(Text.BTN_UNKNOWN_CUE);
-			text = Text.BTN_UNKNOWN_CUE;
-			
-			this.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent arg0) { 
-				disableKeyListener();
-				if (text == Text.BTN_UNKNOWN_CUE) {
-					Experiment.xp.skipFurtherAssociations("__UNKNOWN__");
-				} else if (text == Text.BTN_NO_FURTHER_RESPONSES) {
-					Experiment.xp.skipFurtherAssociations("__NO_FURTHER_RESPONSES__");
-				} else {
-					Experiment.xp.skipFurtherAssociations("__ERROR_(this should no be here)__");
-				}
-			}});	
+		private ResponseListener(int groupNb) {
+			this.groupNb = groupNb;
 		}
 		
-		public void setState(String state) {
-			this.text = state;
-			this.setText(text);
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			removeAll();
+			String response = (groupNb == 1 ? Options.group1name : Options.group2name);
+			Experiment.currentPhase.submitResponse(response, System.currentTimeMillis());			
 		}
+		
 	}
-	
-	private class ReponseDispatcher implements KeyEventDispatcher {
-        @Override
-        public boolean dispatchKeyEvent(KeyEvent e) {
-            if (e.getID() == KeyEvent.KEY_RELEASED) {            	
-            	if (e.getKeyCode() == KeyEvent.VK_ENTER) { 
-            	//user pressed enter: try to submit response
-            		if (responseField.getText().length() > 0) {
-            			//response long enough: submit it
-            			submitResponse(responseField.getText());
-            		} //else: just do nothing!
-            	} else {
-            	//user pressed different key -> we might have to write away RT
-            		if (listenToFirstKeypress) {
-            			//not RT to first keypress saved already -> do so now
-            			Experiment.xp.removeResponseTimer();
-            			listenToFirstKeypress = false;
-            			timeAtAssociationsFirstKeypress = System.currentTimeMillis();
-            		}
-            	}			
-            } 
-            return false; //do not perform default action
-        }
-	}
-
-	public void enableKeyListener() {
-		keyboardManager.addKeyEventDispatcher(responseDispatcher);
-	}
-
-	public void disableKeyListener() {
-		keyboardManager.removeKeyEventDispatcher(responseDispatcher);
-	}	
 }

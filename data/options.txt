@@ -1,0 +1,116 @@
+    /*
+     * In this file, you can change a number of options to tweak the experiment.
+     * The options below are an exhaustive and complete list of settings you can change without modifying the source code.
+     * Format: option = value
+     * Lines that start with '/' or '*' are ignored, as are lines without '='.
+     */    
+    
+    /**
+     * The name of one of the two categories. Is used for the buttons with which the participant answers, and for writing away results. 
+     */
+    group1name = Mapapilio
+    
+    /**
+     * The name of one of the two categories. Is used for the buttons with which the participant answers, and for writing away results.
+     */
+    group2name = Machaon
+ 
+    
+    /**
+     * Training continues until participant has a sufficient accuracy in this many preceeding blocks. 
+     * Default = 2
+     */
+     trainingBlocksAboveCrit = 2
+    
+    /**
+     * If participant reaches this amount of correct classifications, accuracy in this block qualifies as sufficient.
+     * Default = 0.9
+     */
+     trainingCriterion = 0.9
+        
+    /**
+     * During the training phase, participants only see this many stimuli of each group.
+     * Default = 6 
+     * IMPORTANT: this value, x2, should be divisible by {@code trialsPerTrialGroup}!!! Otherwise it's impossible to create trialgroups of equal size.
+     * The stimuli are picked at random from all stimuli of that group.
+     * In other words, different participants see different stimuli during the training phase.
+     */
+     trainingStimuliPerGroup = 6
+    
+    /**
+     * The number of training blocks to create before starting the experiment. 
+     * Training phase continues until participant reaches 90% correct classifications in two subsequent blocks.
+     * If this takes more than this amount of blocks, new blocks are created on the fly.
+     */
+     initialTrainingBlocksAmount = 10
+    
+    /**
+     * Number of blocks during testing phase.
+     * Each block contains all stimuli once.
+     */
+     testBlocksAmount = 5
+    
+    /**
+     * Number of trials in one group each group is assigned one pattern.
+     * IMPORTANT: ALL trialgroups have this amount of trials. This means that the total number of stimuli/images should be divisible by this amount!
+     */
+     trialsPerTrialGroup = 4
+    
+    /**
+     * Displayed during training phase when participant made a correct classification.
+     */
+     fileFeedbackCorrect = data/feedback_right.jpg
+    
+    /**
+     * Displayed during training phase when participant made an incorrect classification.
+     */
+    fileFeedbackWrong = data/feedback_wrong.jpg
+    
+    /**
+     * Data files are written out to this directory.
+     * Per participant, one file is created.
+     */
+     dirOutput    = data/output
+    
+    /**
+     * File containing the stimuli that will be used in the experiment.
+     * In this folder, there should be some amount of images.
+     */
+     dirGroup1Stimuli = data/stimuli/group1
+     
+     dirGroup2Stimuli = data/stimuli/group2
+    
+    /**
+     * Pattern (that the ss will have to reproduce later) will be displayed for this many MS. 
+     * Default value: 750 MS.
+     */
+     durationPattern  = 750
+    
+    /**
+     * Fixation cross will be displayed for this many MS. 
+     * Default value: 500 MS.
+     */
+    durationFixation = 500
+    
+    /**
+     * Delay between two trials.
+     * Default: 500ms. 
+     */
+    durationIntertrialDelay  = 500
+
+    /**
+     * Delay between the pattern reproduction screen of one trialGroup, and the pattern screen of the subsequent trialGroup.
+     * Default: 2000ms.
+     */
+    durationInterpatternDelay  = 2000
+
+     /**
+     * During training phase, after each trial, participant is given feedback on whether they had classified it correctly. This feedback is displayed for this many ms.
+     */
+     durationFeedback = 500
+        
+    /**
+     * The width of the two buttons the participant uses to categorize the stimuli. If you use particularly long button names, you might have to increase this.
+     */
+    responseButtonWidth = 200
+    

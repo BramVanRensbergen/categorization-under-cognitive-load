@@ -1,6 +1,5 @@
 /**
-  	This file is part of a task where participants give word associations
-  	under cognitive load.
+  	This file is part of a task where participants categorize under cognitive load.
 	Copyright (C) 2014 Bram Van Rensbergen (mail@bramvanrensbergen.com)
 
     This is free software: you can redistribute it and/or modify
@@ -36,13 +35,14 @@ import com.bram.concat.categorizationundercognitiveload.Text;
  */
 @SuppressWarnings("serial")
 public class Gui extends JFrame {
+	
 	/**
 	 * Contains whatever is currently showing, e.g. the introduction, the actual experiment, ...
 	 */
 	protected Container bg;
 				
 	/**
-	 * Contains the dot-pattern, a fixation-cross, the pattern-reproduction screen, or a blank screen.
+	 * Contains a stimulus, dot-pattern, fixation-cross, pattern-reproduction screen, feedback, or a blank screen.
 	 */
 	public ExperimentPanel xpPane;
 
@@ -60,13 +60,13 @@ public class Gui extends JFrame {
 	 * Initialize the layout
 	 */
 	public Gui() {
-		setTitle(Text.TEXT_WINDOW_TITLE);					//set the application's title
+		setTitle(Text.textWindowTitle);					//set the application's title
 		setUndecorated(!Options.DECORATED);				//removes title bar and close buttons if necessary
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setSize(Options.screenSize);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //on exit, stop all processes
 		setVisible(true);								//display the frame
-
+		setBackground(Options.backgroundColor);
 		blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "blank cursor");
 		bg = getContentPane();							//bg contains whatever we are currently displaying
 		xpPane = new ExperimentPanel(); 				//create the panel that holds the experiment
@@ -102,7 +102,7 @@ public class Gui extends JFrame {
 	 * Display the actual experiment.
 	 */
 	public void showXP() {
-		bg.removeAll(); //remove the introduction panel
+		bg.removeAll(); //remove the instructions panel
 		bg.add(xpPane); //add the experiment panel
 		bg.validate();  //repaint background
 		bg.repaint();		
