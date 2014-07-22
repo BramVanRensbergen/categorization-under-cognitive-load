@@ -78,23 +78,6 @@ public class ExperimentPanel extends JPanel {
 		stimulusContainer.setHorizontalAlignment(SwingConstants.CENTER);
 		int stimSize = Stimulus.maxSize;
 		stimulusContainer.setBounds(w / 2 - stimSize / 2, h / 2 - stimSize / 2, stimSize, stimSize); //center
-		
-		//each button always corresponds to one group
-		group1button = new JButton(Options.group1name);
-		group2button = new JButton(Options.group2name); 
-		
-		//which of these buttons is on the left, and which on the right, depends on Options.reversedButtonPosition	
-		int leftButtonX = w / 2 - Options.responseButtonWidth - 50;
-		int rightButtonX = w / 2 + 50;
-		
-		int group1buttonX = ( Options.reversedButtonPosition ? rightButtonX : leftButtonX); 
-		int group2buttonX = ( Options.reversedButtonPosition ? leftButtonX  : rightButtonX); 
-		
-		group1button.setBounds(group1buttonX, h / 2 + stimSize / 2 + 100, Options.responseButtonWidth, 50);
-		group2button.setBounds(group2buttonX, h / 2 + stimSize / 2 + 100, Options.responseButtonWidth, 50);
-		
-		group1button.addActionListener(new ResponseListener(1));
-		group2button.addActionListener(new ResponseListener(2));
 
 		feedbackContainer = new JLabel("");
 		feedbackContainer.setFont(Text.FONT_INSTRUCTIONS);
@@ -120,8 +103,27 @@ public class ExperimentPanel extends JPanel {
 		fixationCross.setFont(new Font("Serif", Font.PLAIN, 50));
 		int fixationCrossSize = 30;
 		fixationCross.setBounds(w / 2 - fixationCrossSize / 2, h / 2 - fixationCrossSize / 2, fixationCrossSize, fixationCrossSize);
-
 	}		
+	
+	public void createCategorizationButtons() {
+		
+		//each button always corresponds to one group
+		group1button = new JButton(Options.group1name);
+		group2button = new JButton(Options.group2name); 
+		
+		//which of these buttons is on the left, and which on the right, depends on Options.reversedButtonPosition	
+		int leftButtonX = Options.screenSize.width / 2 - Options.responseButtonWidth - 50;
+		int rightButtonX = Options.screenSize.width / 2 + 50;
+		
+		int group1buttonX = ( Options.reversedButtonPosition ? rightButtonX : leftButtonX ); 
+		int group2buttonX = ( Options.reversedButtonPosition ? leftButtonX  : rightButtonX );
+				
+		group1button.setBounds(group1buttonX, Options.screenSize.height / 2 + Stimulus.maxSize / 2 + 100, Options.responseButtonWidth, 50);
+		group2button.setBounds(group2buttonX, Options.screenSize.height / 2 + Stimulus.maxSize / 2 + 100, Options.responseButtonWidth, 50);
+		
+		group1button.addActionListener(new ResponseListener(1));
+		group2button.addActionListener(new ResponseListener(2));
+	}
 
 	/**
 	 * Show a small fixation cross in the center of an otherwise empty screen.

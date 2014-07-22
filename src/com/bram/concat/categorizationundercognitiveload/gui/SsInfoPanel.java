@@ -33,7 +33,6 @@ import javax.swing.JTextField;
 import com.bram.concat.categorizationundercognitiveload.Options;
 import com.bram.concat.categorizationundercognitiveload.Text;
 import com.bram.concat.categorizationundercognitiveload.experiment.Experiment;
-import com.bram.concat.categorizationundercognitiveload.experiment.Participant;
 
 /**
  * Panel that asks for the participant's basic info.	
@@ -93,7 +92,7 @@ public class SsInfoPanel extends JPanel {
 		sexLabel.setBounds		(wOffset, 					hOffset+2*(h+space), 	labelWidth, h); //third row, first column
 		genderRadio.setBounds	(wOffset+labelWidth+space, 	hOffset+2*(h+space), 	formWidth, h); //third row, second column
 		
-		infoDone.setBounds(wOffset + labelWidth + space, hOffset + 3 * (h + space), 70, h); //fourth row, centered
+		infoDone.setBounds(wOffset + labelWidth + space, hOffset + 3 * (h + space) + 20, 120, 35); //fourth row, centered
 		
 		setVisible(true);
 	}
@@ -158,8 +157,7 @@ public class SsInfoPanel extends JPanel {
 			}
 								
 			if (valid) { //student number, age, and gender are all set correctly: proceed
-				Participant.createParticipant(ssNb, age, gender);				
-				Experiment.showInstructions();
+				Experiment.createParticipantAndContinue(ssNb, age, gender);
 			} else {
 				JOptionPane.showMessageDialog(null,errorString,"",JOptionPane.ERROR_MESSAGE); //something was not entered correctly: display error, and remain here
 			}

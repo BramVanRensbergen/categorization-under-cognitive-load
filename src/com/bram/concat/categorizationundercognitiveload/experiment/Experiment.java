@@ -22,8 +22,10 @@ import java.io.IOException;
 
 import com.bram.concat.categorizationundercognitiveload.experiment.phase.*;
 import com.bram.concat.categorizationundercognitiveload.Options;
+import com.bram.concat.categorizationundercognitiveload.Text;
 import com.bram.concat.categorizationundercognitiveload.gui.Gui;
 import com.bram.concat.categorizationundercognitiveload.io.Input;
+import com.bram.concat.categorizationundercognitiveload.io.Output;
 
 /**
  * Handles the flow of the experiment.
@@ -50,11 +52,31 @@ public abstract class Experiment {
 		if (!Options.DEBUG) {			
 			gui.showSsInfo();		
 		} else {
-			Participant.createParticipant(1, 18, 'm'); //create 'default' participant during development
-//			showInstructions();
-			displayAndContinue();
+			createParticipantAndContinue(2, 18, 'm'); //create 'default' participant during development
 		}	
 	}
+	
+	/**
+	 * Create the participant, create his output file, create the trials he will see, initialize the buttons in the experiment (order of which depends on the participant),
+	 * and finally, show the instructions.
+	 */
+	public static void createParticipantAndContinue(int ssNb, int age, char gender) {
+		pp = new Participant(ssNb, age, gender);	
+		
+		//create the datafile for the participant
+		Output.initializeWriting(ssNb + "_" + age + "_" + gender + "_" + Text.getDate() + "_" + Text.getTime() + ".txt");
+				
+		//create the trials the participant will see
+		//only done here, not before, as participant number influences the condition of their trials
+		Experiment.createTrials();	
+				
+		//only done here, as which buttons is left, and which is right, depends on participant
+		gui.xpPane.createCategorizationButtons();
+		
+		Experiment.showInstructions();
+
+	}
+	
 		
 	/**
 	 * Show the experimental screen, and display the next trial.
