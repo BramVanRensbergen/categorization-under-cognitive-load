@@ -83,8 +83,8 @@ public class SsInfoPanel extends JPanel {
 		add(infoDone);
 		
 		//center panels vertically and horizontally
-		int wOffset = Options.screenSize.width / 2  - (labelWidth + formWidth - space) / 2; 	//centered panel's leftmost position
-		int hOffset = Options.screenSize.height / 2 - (h * 3 - space * 2) / 2;//centered panel's top position
+		int wOffset = Options.screenSize.width / 2  - (labelWidth + formWidth - space) / 2; //centered panel's leftmost position
+		int hOffset = Options.screenSize.height / 2 - (h * 3 - space * 2) / 2;				//centered panel's top position
 		
 		snLabel.setBounds		(wOffset, 					hOffset, 				labelWidth, h); //first row, first column
 		snTextField.setBounds	(wOffset+labelWidth+space, 	hOffset, 				formWidth, h); //first row, second column
@@ -107,12 +107,14 @@ public class SsInfoPanel extends JPanel {
 	    	//if button is clicked, set gender to male
 	    	gender = 'm'; }   
 	    }); 
-	
+	    maleButton.setBackground(Options.backgroundColor);
+	    
 	    JRadioButton femaleButton = new JRadioButton(Text.FORM_FEMALE); //create the 'female' button
 	    femaleButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e)   { 
 	    	//if button is clicked, set gender to female
 	    	gender = 'f'; }   
 	    }); 
+	    femaleButton.setBackground(Options.backgroundColor);
 	    
 	    ButtonGroup sexGroup = new ButtonGroup(); //group the two buttons (so clicking one de-selects the other)
 	    sexGroup.add(maleButton);
@@ -120,6 +122,7 @@ public class SsInfoPanel extends JPanel {
 	    
 	    JPanel genderPanel = new JPanel(); //add them to a panel
 	    genderPanel.setLayout(new GridLayout(1, 2));
+	    genderPanel.setBackground(Options.backgroundColor);
 	    genderPanel.add(maleButton);
 	    genderPanel.add(femaleButton);
 	    return genderPanel;	//and return the panel
