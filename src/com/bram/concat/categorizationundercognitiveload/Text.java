@@ -165,7 +165,7 @@ public abstract class Text {
 	}	
 	
 	/**
-	 * @return The current month and day, formatted as a string, seperated by an underscore.
+	 * @return The current month and day, formatted as a string, separated by an underscore.
 	 */
 	public static String getDate() {
 		Calendar cal = Calendar.getInstance();
@@ -175,7 +175,7 @@ public abstract class Text {
 	}
 	
 	/**
-	 * @return The current time, formatted as a string, seperated by an underscore.
+	 * @return The current time, formatted as a string, separated by an underscore.
 	 */
 	public static String getTime() {	
 		Calendar cal = Calendar.getInstance();
