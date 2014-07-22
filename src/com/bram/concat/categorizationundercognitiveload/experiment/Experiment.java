@@ -21,9 +21,9 @@ package com.bram.concat.categorizationundercognitiveload.experiment;
 import java.io.IOException;
 
 import com.bram.concat.categorizationundercognitiveload.experiment.phase.*;
-import com.bram.concat.categorizationundercognitiveload.IO;
 import com.bram.concat.categorizationundercognitiveload.Options;
 import com.bram.concat.categorizationundercognitiveload.gui.Gui;
+import com.bram.concat.categorizationundercognitiveload.io.Input;
 
 /**
  * Handles the flow of the experiment.
@@ -42,9 +42,9 @@ public abstract class Experiment {
 	public static ExperimentPhase currentPhase, trainingPhase, testPhase;
 	
 	public static void initialize() throws IOException {
-		IO.readAndSetOptions();
-		IO.readText();
-		IO.readImages(); 		  				//read stimuli from disk
+		Input.readAndSetOptions();
+		Input.readText();
+		Input.readImages(); 		  				//read stimuli from disk
 		gui = new Gui();							//create GUI
 		
 		if (!Options.DEBUG) {			

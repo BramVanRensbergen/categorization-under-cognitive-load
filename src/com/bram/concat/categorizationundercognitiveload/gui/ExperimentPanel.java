@@ -27,11 +27,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import com.bram.concat.categorizationundercognitiveload.IO;
 import com.bram.concat.categorizationundercognitiveload.Options;
 import com.bram.concat.categorizationundercognitiveload.Text;
 import com.bram.concat.categorizationundercognitiveload.experiment.Experiment;
 import com.bram.concat.categorizationundercognitiveload.experiment.Stimulus;
+import com.bram.concat.categorizationundercognitiveload.io.Input;
 import com.bram.concat.categorizationundercognitiveload.pattern.Pattern;
 
 /**
@@ -99,8 +99,8 @@ public class ExperimentPanel extends JPanel {
 		feedbackContainer = new JLabel("");
 		feedbackContainer.setFont(Text.FONT_INSTRUCTIONS);
 		feedbackContainer.setHorizontalAlignment(SwingConstants.CENTER);
-		int feedbackWidth = Math.max(IO.feedbackRight.getIconWidth(), IO.feedbackWrong.getIconWidth());
-		int feedbackHeight = Math.max(IO.feedbackRight.getIconHeight(), IO.feedbackWrong.getIconHeight());
+		int feedbackWidth = Math.max(Input.feedbackRight.getIconWidth(), Input.feedbackWrong.getIconWidth());
+		int feedbackHeight = Math.max(Input.feedbackRight.getIconHeight(), Input.feedbackWrong.getIconHeight());
 		feedbackContainer.setBounds(w / 2 - feedbackWidth / 2, h / 2 - feedbackHeight / 2, feedbackWidth, feedbackHeight); //centered
 		
 		feedbackDoneButton = new JButton(Text.BTN_CONTINUE);
@@ -174,9 +174,9 @@ public class ExperimentPanel extends JPanel {
 	public void showTrialFeedback(boolean correct) {
 		feedbackContainer.setText("");
 		if (correct) {
-			feedbackContainer.setIcon(IO.feedbackRight);
+			feedbackContainer.setIcon(Input.feedbackRight);
 		} else {
-			feedbackContainer.setIcon(IO.feedbackWrong);
+			feedbackContainer.setIcon(Input.feedbackWrong);
 		}
 		removeAll();
 		add(feedbackContainer);

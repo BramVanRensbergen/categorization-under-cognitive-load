@@ -18,9 +18,9 @@
 
 package com.bram.concat.categorizationundercognitiveload.experiment;
 
-import com.bram.concat.categorizationundercognitiveload.IO;
 import com.bram.concat.categorizationundercognitiveload.Options;
 import com.bram.concat.categorizationundercognitiveload.Text;
+import com.bram.concat.categorizationundercognitiveload.io.Output;
 
 /**
  * Represents the user of the experiment.
@@ -52,14 +52,12 @@ public class Participant {
 		Experiment.pp = new Participant(ssNb, age, gender);
 		
 		//create the datafile for the participant
-		IO.initializeWriting(ssNb + "_" + age + "_" + gender + "_" + Text.getDate() + "_" + Text.getTime() + ".txt");
+		Output.initializeWriting(ssNb + "_" + age + "_" + gender + "_" + Text.getDate() + "_" + Text.getTime() + ".txt");
 				
 		//create the trials the participant will see
 		//only done here, not before, as participant number influences the condition of their trials
 		Experiment.createTrials();			
-	}
-	
-	
+	}	
 	
 	/**
 	 * The participant's number. Should be given to him/her by the experimenter.
