@@ -57,13 +57,13 @@ public abstract class Input {
 		try {
 			BufferedReader fReader = new BufferedReader(new InputStreamReader(new FileInputStream(optionsFile), "UTF-8"));
             String line;				//will contain  one line of the text file
-            String segmentName = ""; 	//name of the segment (i.e. main instructions) we are currently reading
-            String segment = "";		//will contain all lines belonging to one 'segment', such as the main instructions
+            String segmentName = null; 	//name of the segment (i.e. main instructions) we are currently reading
+            String segment = null;		//will contain all lines belonging to one 'segment', such as the main instructions
             
             while ((line = fReader.readLine()) != null) {
-            	
             	if (line.trim().startsWith("@DEFINE")) { //start of new segment            		
-            		if (segment.length() > 0) {  //this means previous segment was finished, so submit it
+            		
+            		if (segmentName != null) {  //not the first segment, being here means previous segment was finished, so submit it
             			Text.setText(segmentName, segment);
             		}
             		
