@@ -18,7 +18,6 @@
 
 package com.bram.concat.categorizationundercognitiveload.experiment.phase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.bram.concat.categorizationundercognitiveload.Options;
@@ -70,14 +69,12 @@ public class TestPhase extends ExperimentPhase{
 		} else { //show the next trialgroup for this block			
 			trialGroupNb++;
 			currentTrialGroup = currentBlock.remove(0);
-			responseLines = new ArrayList<String>();
 			startNextTrial();
 		}
 	}
 	
 	@Override
 	void finishTrialGroup() {
-		writeResponsesToDisk();
 		startNextTrialGroup();		
 	}
 	

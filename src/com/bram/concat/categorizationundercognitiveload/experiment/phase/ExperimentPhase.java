@@ -22,12 +22,12 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.bram.concat.categorizationundercognitiveload.IO;
 import com.bram.concat.categorizationundercognitiveload.Options;
 import com.bram.concat.categorizationundercognitiveload.experiment.Block;
 import com.bram.concat.categorizationundercognitiveload.experiment.Experiment;
 import com.bram.concat.categorizationundercognitiveload.experiment.Trial;
 import com.bram.concat.categorizationundercognitiveload.experiment.TrialGroup;
+import com.bram.concat.categorizationundercognitiveload.io.Output;
 
 /**
  * The program consists of two phases: 
@@ -37,9 +37,24 @@ import com.bram.concat.categorizationundercognitiveload.experiment.TrialGroup;
 public abstract class ExperimentPhase {
 	
 	/**
-	 * Name of the phase, used when writign away responses.
+	 * Name of the phase, used when writing away responses.
 	 */
 	public String name;
+		
+	/**
+	 * The index of the current Trial in the current phase of the experiment (i.e., separate count for training and for test phase)
+	 */
+	public int trialNb = 0;
+	
+	/**
+	 * The index of the current TrialGroup in the current phase, i.e. 1..{@code nbOfTrialGroups}
+	 */
+	public int trialGroupNb = 0;
+	
+	/**
+	 * The index of the current block in the current phase.
+	 */
+	public int blockNb = 0;
 	
 	/**
 	 * The trial that is currently in progress.
@@ -64,58 +79,17 @@ public abstract class ExperimentPhase {
 	/**
 	 * Used to pause the experiment for certain delays, e.g. to display fixation-cross for x ms, or a blank screen for y ms, etc.
 	 */
-	public Timer timer;
-		
-	/**
-	 * Used to save the participant's response to the trials in the current trial group. 
-	 * They are not written to text directly, but only when the pattern has been reproduced (because we want pattern reproduction scores in each line).
-	 */
-	protected List<String> responseLines;
-	
-	/**
-	 * The index of the current Trial in the current phase of the experiment (i.e., separate count for training and for test phase)
-	 */
-	protected int trialNb = 0;
-	
-	/**
-	 * The index of the current TrialGroup in the current phase, i.e. 1..{@code nbOfTrialGroups}
-	 */
-	protected int trialGroupNb = 0;
-	
-	/**
-	 * The index of the current block in the current phase.
-	 */
-	protected int blockNb = 0;
+	protected Timer timer;
 	
 	/**
 	 * Used to measure participant's reaction time. Starts when the stimulus is shown.
 	 */
-	public long RT_start;
+	protected long RT_start;
 	
 	ExperimentPhase(List<Block> blocks) {
 		allBlocks = blocks;
 		timer = new Timer();						//initialize timer
 	}
-	
-	/**
-	 * List of actions to perform when the phase is completed.
-	 */
-	abstract void finishPhase();
-	
-	/**
-	 * Start a new TrialGroup. If there are no more TrialGroups in the current phase of the experiment, move on to the next phase.
-	 */
-	abstract void startNextTrialGroup();
-	
-	/**
-	 * List of action to perform when a TrialGroup is completed.
-	 */
-	abstract void finishTrialGroup();
-	
-	/**
-	 * List of action to perform when a Trial is completed.
-	 */
-	abstract void finishTrial(boolean responseWasCorrect);	
 	
 	/**
 	 * @return {@code TRUE} when the current phase should finish, at which point {@code finishPhase()} will be called.
@@ -124,6 +98,11 @@ public abstract class ExperimentPhase {
 		return allBlocks.isEmpty();
 	}
 	
+	/**
+	 * List of actions to perform when the phase is completed.
+	 */
+	abstract void finishPhase();
+		
 	/**
 	 * @return The next block that should be displayed.
 	 */
@@ -149,8 +128,18 @@ public abstract class ExperimentPhase {
 		currentBlock = block;
 		blockNb++;
 		startNextTrialGroup();
-	}
-
+	}	
+	
+	/**
+	 * Start a new TrialGroup. If there are no more TrialGroups in the current phase of the experiment, move on to the next phase.
+	 */
+	abstract void startNextTrialGroup();
+	
+	/**
+	 * List of action to perform when a TrialGroup is completed.
+	 */
+	abstract void finishTrialGroup();
+	
 	/**
 	 * Attempt to start the next Trial of the current TrialGroup.
 	 */
@@ -165,7 +154,7 @@ public abstract class ExperimentPhase {
 			showPreTrialBlankScreen();
 		}		
 	}
-	
+		
 	/**
 	 * Show a blank screen before showing a new stimulus.
 	 */
@@ -188,28 +177,19 @@ public abstract class ExperimentPhase {
 	}
 	
 	/**
+	 * List of action to perform when a Trial is completed.
+	 */
+	abstract void finishTrial(boolean responseWasCorrect);	
+		
+	/**
 	 * Save the participant's response to the current Trial.  
 	 * They are not written to text directly, but only when the pattern has been reproduced (because we want pattern reproduction scores in each line).
 	 */
 	public void submitResponse(String response, long timeAtSubmission) {
-		Trial t = currentTrial;
-		int correct = response.equals(t.group) ? 1 : 0;
-		int RT = (int) (timeAtSubmission - RT_start);
-		String responseLine = name + "\t" + trialNb + "\t" + trialGroupNb + "\t" + blockNb + "\t" + (t.indexInTrialGroup + 1) + "\t" + t.stimulus.filename 
-				 + "\t" + t.group + "\t" + response + "\t" + correct + "\t" + RT;
-		responseLines.add(responseLine);	
-		
+		Output.writeResponse(currentTrial, response, (int) (timeAtSubmission - RT_start));
+		int correct = response.equals(currentTrial.group) ? 1 : 0;
 		finishTrial(correct == 1);
 	}		
-	
-	/**
-	 * Write all responses to the current TrialGroup to disk.
-	 */
-	void writeResponsesToDisk() {
-		for (String responseLine : responseLines) {
-			IO.writeData(responseLine);
-		}
-	}
 	
 	public abstract void correctPatternReproduction();
 		

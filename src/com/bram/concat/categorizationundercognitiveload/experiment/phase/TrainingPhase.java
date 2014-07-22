@@ -25,6 +25,7 @@ import java.util.TimerTask;
 import com.bram.concat.categorizationundercognitiveload.Options;
 import com.bram.concat.categorizationundercognitiveload.experiment.Block;
 import com.bram.concat.categorizationundercognitiveload.experiment.Experiment;
+import com.bram.concat.categorizationundercognitiveload.io.Output;
 import com.bram.concat.categorizationundercognitiveload.pattern.NoloadPattern;
 import com.bram.concat.categorizationundercognitiveload.pattern.Pattern;
 
@@ -86,6 +87,21 @@ public class TrainingPhase extends ExperimentPhase {
 	protected void startBlock(Block block) {
 		currentBlockTrialAccuracy = new ArrayList<Integer>();
 		super.startBlock(block);
+	}	
+	
+	/**
+	 * Calculate the mean accuracy in the current block, and display it.
+	 */
+	private void showBlockAccuracy() {
+		int sum = 0;
+		for (int tAcc : currentBlockTrialAccuracy) {
+			sum += tAcc;
+		}	
+		double acc = (double) sum / currentBlockTrialAccuracy.size();		
+		int accperc = (int) (100 * acc);
+		
+		completedBlockAccuracy.add(acc);
+		Experiment.gui.xpPane.showBlockAccuracy(accperc);	
 	}
 	
 	/**
@@ -99,7 +115,6 @@ public class TrainingPhase extends ExperimentPhase {
 		} else { //show the next trialgroup for this block			
 			trialGroupNb++;
 			currentTrialGroup = currentBlock.remove(0);
-			responseLines = new ArrayList<String>();			
 			showPrePatternFixationCross();
 		}
 	}
@@ -127,22 +142,6 @@ public class TrainingPhase extends ExperimentPhase {
 		    }
 		}, Options.durationFeedback);	
 	}
-	
-	/**
-	 * Calculate the mean accuracy in the current block, and display it.
-	 */
-	private void showBlockAccuracy() {
-		int sum = 0;
-		for (int tAcc : currentBlockTrialAccuracy) {
-			sum += tAcc;
-		}	
-		double acc = (double) sum / currentBlockTrialAccuracy.size();		
-		int accperc = (int) (100 * acc);
-		
-		completedBlockAccuracy.add(acc);
-		Experiment.gui.xpPane.showBlockAccuracy(accperc);	
-	}
-
 
 	/**
 	 * Display a fixation-cross for {@code Options.FIXATION_DURATION} MS; after this, show the pattern reproduction screen.
@@ -211,13 +210,8 @@ public class TrainingPhase extends ExperimentPhase {
 			responseDotString += responseDots[iDot]; //add a 0 or a 1, depending on whether there's a dot in this square in the reproduced pattern
 		}
 
-		String patternResponseLine = currentTrialGroup.pattern.loadString + "\t" + originalDotString + "\t" + responseDotString + "\t" 
-				+ (originalDotString.equals(responseDotString) ? 1 : 0) + "\t" + hits + "\t" + misses + "\t" + falseAlarms;
-
-		for (int i = 0; i < responseLines.size(); i++) {
-			responseLines.set(i, responseLines.get(i) + "\t" + patternResponseLine);
-		}
-		writeResponsesToDisk();
+		Output.writePatternResponse(currentTrialGroup.pattern.loadString, originalDotString, responseDotString, originalDotString.equals(responseDotString), 
+				hits, misses, falseAlarms);
 		showInterPatternBlankScreen();	
 	}
 	
