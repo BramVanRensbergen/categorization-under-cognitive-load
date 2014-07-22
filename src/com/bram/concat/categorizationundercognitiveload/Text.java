@@ -145,12 +145,6 @@ public abstract class Text {
 	public static final String BTN_QUIT = "Afsluiten";
 
 	/**
-	 * Output headers i.e. first line of every datafile.
-	 */
-	public static final String HEADER = "phase\ttrial\tgroup\tblock\tindexInGroup\tfilename\tgroup\tresponse\tcorrect\trt\t"
-			+ "load\toriginal_pattern\treproduced_pattern\tcorrect\thits\tmisses\tfalseAlarms";
-		
-	/**
 	 * Font used in all instruction screens and in the goodbye screen.
 	 */
 	public static final Font FONT_INSTRUCTIONS = new Font("Serif", Font.PLAIN, 24);
