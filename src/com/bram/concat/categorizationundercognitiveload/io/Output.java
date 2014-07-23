@@ -42,7 +42,6 @@ public class Output {
 	 */
 	private static PrintWriter out;  
 	
-
 	/**
 	 * Output headers i.e. first line of every datafile.
 	 */
@@ -64,7 +63,13 @@ public class Output {
 		"group",
 		"response",
 		"correct",
-		"RT",
+		"RT"		
+	}; 
+	
+	/**
+	 * Header lines for the dot pattern output; only added to the rest of the header whenever the pattern module is enabled.
+	 */
+	private static final String[] PATTERN_HEADER_SUFFIX = {
 		"patternLoad",
 		"originalPattern",
 		"reproducedPattern",
@@ -72,7 +77,7 @@ public class Output {
 		"patternHits",
 		"patterMisses",
 		"patternFalseAlarms"
-	}; 
+	};
 
 	/**
 	 * Create a datafile for the current user; filename contains student number, age, gender, date, and time.
@@ -90,6 +95,10 @@ public class Output {
 		}	
 				
 		writeData(HEADER, false); //write the headers as the first line
+		
+		if (Options.includePatterns) {
+			writeData(PATTERN_HEADER_SUFFIX, false);
+		}
 	}
 
 	public static void writeResponse(Trial t, String response, int RT) {
