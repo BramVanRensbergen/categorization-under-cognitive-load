@@ -12,9 +12,15 @@
     
     /**
      * The name of one of the two categories. Is used for the buttons with which the participant answers, and for writing away results.
+     * If you prefer A - Not A categorization, you could call this group "Geen Mapapilio".     
      */
     group2name = Machaon
  
+    /**
+     * True (default): enable the dot patterns, which participants memorize during the training phase.
+     * False: disable this module.
+     */
+    includePatterns = true
     
     /**
      * Training continues until participant has a sufficient accuracy in this many preceeding blocks. 

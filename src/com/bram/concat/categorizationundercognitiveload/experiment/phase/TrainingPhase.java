@@ -115,13 +115,22 @@ public class TrainingPhase extends ExperimentPhase {
 		} else { //show the next trialgroup for this block			
 			trialGroupNb++;
 			currentTrialGroup = currentBlock.remove(0);
-			showPrePatternFixationCross();
+			
+			if (Options.includePatterns) {
+				showPrePatternFixationCross();
+			} else {
+				startNextTrial();
+			}
 		}
 	}
 	
 	@Override
 	void finishTrialGroup() {		
-		showPatternReproduction();		
+		if (Options.includePatterns) {
+			showPatternReproduction();		
+		} else {
+			startNextTrialGroup();
+		}
 	}
 	
 	@Override

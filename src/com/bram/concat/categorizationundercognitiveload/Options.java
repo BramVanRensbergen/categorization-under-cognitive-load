@@ -56,7 +56,7 @@ public abstract class Options {
 	/**
 	 * True: GUI has no titlebar, close-buttons, etc.
 	 */
-	public static final boolean DECORATED = true;
+	public static final boolean DECORATED = false;
 	
 	/**
 	 * Width and height of each cell of the grid in which the dot-pattern is displayed.
@@ -104,7 +104,12 @@ public abstract class Options {
 	public static String group2name = "Geen Mapapilio";
 	
 	/**
-	 * Training continues until participant has a sufficient accuracy in this many preceeding blocks. 
+	 * True (default): enable the dot patterns, which participants memorize during the training phase.
+	 */
+	public static boolean includePatterns = false;
+	
+	/**
+	 * Training continues until participant has a sufficient accuracy in this many preceding blocks. 
 	 * Default = 2
 	 */
 	public static int trainingBlocksAboveCrit = 2;
@@ -209,6 +214,7 @@ public abstract class Options {
 			switch (option) {
 				case "group1name": 					group1name 					= value; 						break;
 				case "group2name": 					group2name 					= value; 						break;
+				case "includePatterns":				includePatterns 			= Boolean.valueOf(value);		break;
 				case "trainingBlocksAboveCrit": 	trainingBlocksAboveCrit 	= Integer.parseInt(value); 		break;
 				case "trainingCriterion": 			trainingCriterion 			= Double.parseDouble(value); 	break;
 				case "trainingStimuliPerGroup": 	trainingStimuliPerGroup 	= Integer.parseInt(value); 		break;
