@@ -53,14 +53,24 @@ public class ExperimentPanel extends JPanel {
 	private JButton group1button, group2button;
 	
 	/**
-	 * Will hold feedback on either the trial (right/wrong) or the entire block (mean % correct for all trials).
+	 * Will hold feedback on the trial (right/wrong).
 	 */
-	private JLabel feedbackContainer;
+	private JLabel feedbackImageContainer;
+	
+	/**
+	 * Will contain average accuracy for the past block, or the message that we are about to start a new block
+	 */
+	private JLabel messageContainer;
 	
 	/**
 	 * Used to move on the next block, when participant is presented with % correct for the last block.
 	 */
-	private JButton feedbackDoneButton;	
+	private JButton messageDoneButton;	
+	
+	/**
+	 * Handles what happens when user clicks the OK button beneath a displayed message.
+	 */
+	private MessageDoneListener messageDoneListener;
 	
 	/**
 	 * A button the ss can use to indicate he/she finished reproducing the pattern.
@@ -79,20 +89,21 @@ public class ExperimentPanel extends JPanel {
 		int stimSize = Stimulus.maxSize;
 		stimulusContainer.setBounds(w / 2 - stimSize / 2, h / 2 - stimSize / 2, stimSize, stimSize); //center
 
-		feedbackContainer = new JLabel("");
-		feedbackContainer.setFont(Text.FONT_INSTRUCTIONS);
-		feedbackContainer.setHorizontalAlignment(SwingConstants.CENTER);
+		feedbackImageContainer = new JLabel("");
+		feedbackImageContainer.setHorizontalAlignment(SwingConstants.CENTER);
 		int feedbackWidth = Math.max(Input.feedbackRight.getIconWidth(), Input.feedbackWrong.getIconWidth());
-		feedbackWidth = Math.min(w, 800);
 		int feedbackHeight = Math.max(Input.feedbackRight.getIconHeight(), Input.feedbackWrong.getIconHeight());
-		feedbackHeight = Math.min(h, 600);
-		feedbackContainer.setBounds(w / 2 - feedbackWidth / 2, h / 2 - feedbackHeight / 2, feedbackWidth, feedbackHeight); //centered
+		feedbackImageContainer.setBounds(w / 2 - feedbackWidth / 2, h / 2 - feedbackHeight / 2, feedbackWidth, feedbackHeight); //centered
 		
-		feedbackDoneButton = new JButton(Text.BTN_CONTINUE);
-		feedbackDoneButton.setBounds(w / 2 - 100 / 2, h / 2 + feedbackHeight / 2 + 50, 200, 50);
-		feedbackDoneButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent arg0) { //on click, start the experiment		
-			Experiment.currentPhase.startNextBlock();
-		}});
+		messageContainer = new JLabel("");
+		messageContainer.setFont(Text.FONT_INSTRUCTIONS);
+		messageContainer.setHorizontalAlignment(SwingConstants.CENTER);
+		messageContainer.setBounds(0, 0, w, h);
+		
+		messageDoneButton = new JButton(Text.BTN_CONTINUE);
+		messageDoneButton.setBounds(w / 2 - 100 / 2, h / 2 + feedbackHeight / 2 + 50, 200, 50);
+		messageDoneListener = new MessageDoneListener();
+		messageDoneButton.addActionListener(messageDoneListener);
 		
 		patternReproductionDoneButton = new JButton(Text.BTN_READY); //add ok button, to end pattern reproduction (not displayed yet)
 		patternReproductionDoneButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent arg0) { //on click, start the experiment		
@@ -176,28 +187,24 @@ public class ExperimentPanel extends JPanel {
 	 * Show whether the lastly categorized stimulus was categorized correctly.
 	 */
 	public void showTrialFeedback(boolean correct) {
-		feedbackContainer.setText("");
+		feedbackImageContainer.setText("");
 		if (correct) {
-			feedbackContainer.setIcon(Input.feedbackRight);
+			feedbackImageContainer.setIcon(Input.feedbackRight);
 		} else {
-			feedbackContainer.setIcon(Input.feedbackWrong);
+			feedbackImageContainer.setIcon(Input.feedbackWrong);
 		}
 		removeAll();
-		add(feedbackContainer);
+		add(feedbackImageContainer);
 		validate();
 		repaint();
 	}
 	
-	/**
-	 * Display the mean accuracy on the just-completed block.
-	 */
-	public void showBlockAccuracy(int accuracy) {
-		feedbackContainer.setIcon(null);
-		String feedback = Text.textBlockAccuracy.replace("@ACC@", accuracy + "");
-		feedbackContainer.setText(feedback);
+	public void showMessage(String message, String actionToPerform) {
+		messageDoneListener.actionToPerform = actionToPerform;
+		messageContainer.setText(message);
 		removeAll();
-		add(feedbackContainer);
-		add(feedbackDoneButton);
+		add(messageContainer);
+		add(messageDoneButton);
 		validate();
 		repaint();
 	}
@@ -226,7 +233,27 @@ public class ExperimentPanel extends JPanel {
 			removeAll();
 			String response = (groupNb == 1 ? Options.group1name : Options.group2name);
 			Experiment.currentPhase.submitResponse(response, System.currentTimeMillis());			
+		}		
+	}	
+	
+	/**
+	 * Depending on the type of message that is being displayed, clicking the button beneath it should bring you back to different parts of the program.
+	 * TODO: remove this monstrosity and replace it with a decent solution...
+	 */
+	private class MessageDoneListener implements ActionListener {
+		private String actionToPerform = "none";		
+		
+		private MessageDoneListener() {
 		}
 		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			switch (actionToPerform) {
+				case "finishBlock": Experiment.currentPhase.finishBlock(); break;
+				case "startNextBlock": Experiment.currentPhase.startNextBlock(); break;
+				default: ;				
+			}
+						
+		}		
 	}
 }

@@ -1,3 +1,7 @@
+//Each segment is preceded by @DEFINE <name>
+//To edit the segment, just alter the text after the @DEFINE, and before the next define.
+//Any lines that start with '//' are ignored.
+
 //Main instructions
 //Can consist of several pages, each of which should start with "@DEFINE textInstructions"
 //Supports html encoding (e.g. <b>this should be bold</b>)
@@ -38,7 +42,12 @@ Veel succes!
 //Displayed after each block during the training phase
 //@ACC@ gets replaced with the actual accuracy.
 @DEFINE textBlockAccuracy
-Je behaalde een score van @ACC@%.
+Je hebt @ACC@% van de wezentjes correct gecategoriseerd.
+
+//Displayed between two blocks during the training phase.
+//@BLOCK_NB@ gets replaced with the number of the block about to start.
+@DEFINE textInterblockMessage
+Je gaat nu beginnen aan blok @BLOCK_NB@.
 
 //Displayed after the training phase
 //Supports html formatting
@@ -53,7 +62,7 @@ Veel succes.
 
 //Displayed halfway through the test phase
 //Supports html formatting
-@DEFINE textInterblock
+@DEFINE textHalfway
 Je kan nu even pauzeren. Klik op 'Klaar' als je aan het volgende deel wil beginnen.
 
 //Displayed at the end of the test phase

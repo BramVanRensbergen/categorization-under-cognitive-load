@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.TimerTask;
 
 import com.bram.concat.categorizationundercognitiveload.Options;
+import com.bram.concat.categorizationundercognitiveload.Text;
 import com.bram.concat.categorizationundercognitiveload.experiment.Block;
 import com.bram.concat.categorizationundercognitiveload.experiment.Experiment;
 import com.bram.concat.categorizationundercognitiveload.io.Output;
@@ -46,6 +47,17 @@ public class TrainingPhase extends ExperimentPhase {
 	 * Keep a list of the accuracy of all trials in the current block. Each value is either 1 (ss categorized correctly) or 0.
 	 */
 	private List<Integer> currentBlockTrialAccuracy;
+	
+	/**
+	 * Before the start of any block (except the first), a short message is displayed.
+	 * This variable keeps track of whether we displayed the message yet for the upcoming block.
+	 */
+	private boolean displayedInterblockMessage;
+	
+	/**
+	 * Keep track of whether we displayed the block accuracy for the current block
+	 */
+	private boolean displayedBlockAccuracy;
 	
 	public TrainingPhase(List<Block> blocks) {
 		super(blocks);
@@ -76,11 +88,39 @@ public class TrainingPhase extends ExperimentPhase {
 		Experiment.startTestPhase();
 	}
 	
+
+	/**
+	 * Attempt to start the next block in this phase.
+	 */
+	public void startNextBlock() {
+		if (phaseShouldFinish()) {
+			finishPhase();
+		} else if (blockNb > 0 && !displayedInterblockMessage) {
+			displayedInterblockMessage = true;			
+			String message = Text.textInterblockMessage.replace("@BLOCK_NB@", (blockNb + 1) + "");
+			Experiment.gui.xpPane.showMessage(message, "startNextBlock");
+		} else {
+			startBlock(getNextBlock());
+		}
+	}	
+	
 	@Override
 	protected void startBlock(Block block) {
 		currentBlockTrialAccuracy = new ArrayList<Integer>();
+		displayedInterblockMessage = false;
+		displayedBlockAccuracy = false;
 		super.startBlock(block);
 	}	
+	
+	@Override
+	public void finishBlock() {
+		if (!displayedBlockAccuracy) {
+			displayedBlockAccuracy = true;
+			showBlockAccuracy();
+		} else {
+			startNextBlock();		
+		}		
+	}		
 	
 	/**
 	 * Calculate the mean accuracy in the current block, and display it.
@@ -94,7 +134,7 @@ public class TrainingPhase extends ExperimentPhase {
 		int accperc = (int) (100 * acc);
 		
 		completedBlockAccuracy.add(acc);
-		Experiment.gui.xpPane.showBlockAccuracy(accperc);	
+		Experiment.gui.xpPane.showMessage(Text.textBlockAccuracy.replace("@ACC@", accperc + ""), "finishBlock");	
 	}
 	
 	/**
@@ -104,7 +144,7 @@ public class TrainingPhase extends ExperimentPhase {
 	@Override
 	void startNextTrialGroup() {
 		if (currentBlock.isEmpty()) { //all trials for this block have been shown
-			showBlockAccuracy();
+			finishBlock();
 		} else { //show the next trialgroup for this block			
 			trialGroupNb++;
 			currentTrialGroup = currentBlock.remove(0);
@@ -229,4 +269,6 @@ public class TrainingPhase extends ExperimentPhase {
 		    }
 		}, Options.durationInterpatternDelay);
 	}
+
+
 }

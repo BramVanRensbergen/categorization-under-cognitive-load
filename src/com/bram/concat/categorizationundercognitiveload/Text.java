@@ -49,14 +49,19 @@ public abstract class Text {
 	public static String textBlockAccuracy = "Je behaalde een score van @ACC@%.";
 	
 	/**
+	 * Displayed
+	 */
+	public static String textInterblockMessage = "Je gaat nu beginnen aan blok @BLOCK_NB@.";
+	
+	/**
 	 * Displayed after the training phase, and before the actual experiment.
 	 */
 	public static String textPosttrainingInstructions = "Nu begint het echte experiment.";
 		
 	/**
-	 * Displayed between two blocks, but not before the last block.
+	 * Displayed halfway the test phase.
 	 */
-	public static String textInterblock = "Je kan nu even pauzeren. Klik op 'Klaar' als je aan het volgende deel wil beginnen.";
+	public static String textHalfway = "Je kan nu even pauzeren. Klik op 'Klaar' als je aan het volgende deel wil beginnen.";
 		
 	/**
 	 * Displayed at the end of the experiment.
@@ -156,8 +161,9 @@ public abstract class Text {
 		switch (entry) {
 			case "textInstructions": 				textInstructions.add(value.replace("\n", "<br>")); 	break;
 			case "textBlockAccuracy": 				textBlockAccuracy = value; 							break;
+			case "textInterblockMessage":			textInterblockMessage = value;						break;
 			case "textPosttrainingInstructions":	textPosttrainingInstructions = value.replace("\n", "<br>");	break;
-			case "textInterblock": 					textInterblock = value.replace("\n", "<br>"); 		break;
+			case "textHalfway": 					textHalfway = value.replace("\n", "<br>"); 			break;
 			case "textXpOver": 						textXpOver = value.replace("\n", "<br>"); 			break;
 			case "textWindowTitle": 				textWindowTitle	= value; 							break;
 			default: throw new IncorrectOptionException("Unknown Text: " + entry + " with value " + value + " described in " + Options.TEXT_FILE);

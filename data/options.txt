@@ -44,11 +44,9 @@
      trainingStimuliPerGroup = 6
     
     /**
-     * The number of training blocks to create before starting the experiment. 
-     * Training phase continues until participant reaches 90% correct classifications in two subsequent blocks.
-     * If this takes more than this amount of blocks, new blocks are created on the fly.
+     * Even if the trainingCriterion is never achieved, the training phase stops after this many blocks.
      */
-     initialTrainingBlocksAmount = 10
+     maxTrainingBlocksAmount = 30
     
     /**
      * Number of blocks during testing phase.

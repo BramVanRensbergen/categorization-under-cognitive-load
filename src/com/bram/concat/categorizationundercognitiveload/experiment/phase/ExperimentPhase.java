@@ -113,13 +113,7 @@ public abstract class ExperimentPhase {
 	/**
 	 * Attempt to start the next block in this phase.
 	 */
-	public void startNextBlock() {
-		if (phaseShouldFinish()) {
-			finishPhase();
-		} else {
-			startBlock(getNextBlock());
-		}
-	}	
+	public abstract void startNextBlock();	
 
 	/**
 	 * Start displaying the trials in the indicated block.
@@ -129,6 +123,8 @@ public abstract class ExperimentPhase {
 		blockNb++;
 		startNextTrialGroup();
 	}	
+	
+	public abstract void finishBlock();		
 	
 	/**
 	 * Start a new TrialGroup. If there are no more TrialGroups in the current phase of the experiment, move on to the next phase.

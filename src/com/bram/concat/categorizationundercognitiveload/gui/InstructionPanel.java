@@ -163,7 +163,7 @@ public class InstructionPanel extends JPanel {
 		mainButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent arg0) { //on click, close the gui		
 			Experiment.displayAndContinue(); 
 		}});
-		setInstructions(Text.textInterblock);
+		setInstructions(Text.textHalfway);
 	}
 	
 	public void showXpOverText() {

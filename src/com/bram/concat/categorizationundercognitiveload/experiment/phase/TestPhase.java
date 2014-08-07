@@ -53,10 +53,17 @@ public class TestPhase extends ExperimentPhase{
 		if (blockNb == Options.testBlocksAmount / 2 && !displayedHalfwayInstructions) {
 			displayedHalfwayInstructions = true;
 			Experiment.gui.instructionPanel.showHalfwayInstructions();
+		} else if (phaseShouldFinish()) {
+			finishPhase();
 		} else {
-			super.startNextBlock();
+			startBlock(getNextBlock());
 		}
 	}
+	
+	@Override
+	public void finishBlock() {
+		startNextBlock();		
+	}		
 	
 	/**
 	 * Start a new TrialGroup (beginning by showing that TrialGroup's pattern). 
@@ -65,7 +72,7 @@ public class TestPhase extends ExperimentPhase{
 	@Override
 	void startNextTrialGroup() {			
 		if (currentBlock.isEmpty()) { //all trials for this block have been shown
-			startNextBlock();
+			finishBlock();
 		} else { //show the next trialgroup for this block			
 			trialGroupNb++;
 			currentTrialGroup = currentBlock.remove(0);
@@ -86,5 +93,6 @@ public class TestPhase extends ExperimentPhase{
 	@Override
 	public void correctPatternReproduction() {
 		throw new RuntimeException("Method called in wrong experimental phase...");		
-	}	
+	}
+
 }
