@@ -57,22 +57,13 @@ public class Block extends ArrayList<TrialGroup>{
 		trainingStimuli.addAll(allGroup1Stimuli.subList(0, Options.trainingStimuliPerGroup));
 		trainingStimuli.addAll(allGroup2Stimuli.subList(0, Options.trainingStimuliPerGroup));
 		//now contains the 12 stimuli this participant will see during training
-
+		
 		List<Block> initialTrainingBlocks = new ArrayList<Block>();
-		for (int i = 0; i < Options.initialTrainingBlocksAmount; i++) {						
-			initialTrainingBlocks.add(createTrainingBlock());
+		for (int i = 0; i < Options.maxTrainingBlocksAmount; i++) {						
+			initialTrainingBlocks.add(createBlock(trainingStimuli, true));			
 		}		
 		
 		return initialTrainingBlocks;
-	}
-	
-	/**
-	 * Create a new training block.
-	 * @param blockNumber of the block
-	 * @return A new training block.
-	 */
-	public static Block createTrainingBlock() {
-		return createBlock(trainingStimuli, true);
 	}
 		
 	/**
@@ -104,12 +95,14 @@ public class Block extends ArrayList<TrialGroup>{
 		for (Stimulus s:stimuli) {				
 			if (trialsInCurrentTrialGroup.size() < Options.trialsPerTrialGroup) { //still working on the current trialGroup
 				trialsInCurrentTrialGroup.add(new Trial(s));
-			} else { //current trialGroup is complete, create it and start a new one
+			} 
+			
+			if (trialsInCurrentTrialGroup.size() == Options.trialsPerTrialGroup) { //current trialGroup is complete, create it and start a new one
 				trialGroups.add(new TrialGroup(trialsInCurrentTrialGroup, training));
 				trialsInCurrentTrialGroup.clear();
-			}				
+			}							
 		}			
-
+		
 		return new Block(trialGroups);
 	}
 	

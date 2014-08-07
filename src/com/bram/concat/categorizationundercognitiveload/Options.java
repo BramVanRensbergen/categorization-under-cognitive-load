@@ -106,7 +106,7 @@ public abstract class Options {
 	/**
 	 * True (default): enable the dot patterns, which participants memorize during the training phase.
 	 */
-	public static boolean includePatterns = false;
+	public static boolean includePatterns = true;
 	
 	/**
 	 * Training continues until participant has a sufficient accuracy in this many preceding blocks. 
@@ -127,14 +127,12 @@ public abstract class Options {
 	 * The stimuli are picked at random from all stimuli of that group.
 	 * In other words, different participants see different stimuli during the training phase.
 	 */
-	public static int trainingStimuliPerGroup = 4; 
+	public static int trainingStimuliPerGroup = 6; 
 	
 	/**
-	 * The number of training blocks to create before starting the experiment. 
-	 * Training phase continues until participant reaches 90% correct classifications in two subsequent blocks.
-	 * If this takes more than this amount of blocks, new blocks are created on the fly.
+	 * Even if {@code trainingCriterion} is never achieved, the training phase stops after this many blocks.
 	 */
-	public static int initialTrainingBlocksAmount = 10;
+	public static int maxTrainingBlocksAmount = 30;
 	
 	/**
 	 * Number of blocks during testing phase.
@@ -168,8 +166,8 @@ public abstract class Options {
 	 * File containing the stimuli that will be used in the experiment.
 	 * In this folder, there should be some amount of images.
 	 */
-	public static String dirGroup1Stimuli = "data/stimuli/test1";
-	public static String dirGroup2Stimuli = "data/stimuli/test2";
+	public static String dirGroup1Stimuli = "data/stimuli/group1";
+	public static String dirGroup2Stimuli = "data/stimuli/group2";
 	
 	/**
 	 * Pattern (that the ss will have to reproduce later) will be displayed for this many MS. 
@@ -218,7 +216,7 @@ public abstract class Options {
 				case "trainingBlocksAboveCrit": 	trainingBlocksAboveCrit 	= Integer.parseInt(value); 		break;
 				case "trainingCriterion": 			trainingCriterion 			= Double.parseDouble(value); 	break;
 				case "trainingStimuliPerGroup": 	trainingStimuliPerGroup 	= Integer.parseInt(value); 		break;
-				case "initialTrainingBlocksAmount": initialTrainingBlocksAmount = Integer.parseInt(value); 		break;
+				case "maxTrainingBlocksAmount": 	maxTrainingBlocksAmount = Integer.parseInt(value); 		break;
 				case "testBlocksAmount": 			testBlocksAmount 			= Integer.parseInt(value); 		break;
 				case "trialsPerTrialGroup": 		trialsPerTrialGroup 		= Integer.parseInt(value); 		break;
 				case "fileFeedbackCorrect": 		fileFeedbackCorrect 		= value; 						break;

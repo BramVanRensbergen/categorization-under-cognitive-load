@@ -56,7 +56,9 @@ public class TrainingPhase extends ExperimentPhase {
 	
 	@Override
 	boolean phaseShouldFinish() {
-		if (completedBlockAccuracy.size() < Options.trainingBlocksAboveCrit) {
+		if (allBlocks.isEmpty()) {
+			return true;
+		} else if (completedBlockAccuracy.size() < Options.trainingBlocksAboveCrit) {
 			return false;
 		} else {
 			boolean allAboveCrit = true;
@@ -72,15 +74,6 @@ public class TrainingPhase extends ExperimentPhase {
 	@Override
 	void finishPhase() {
 		Experiment.startTestPhase();
-	}
-
-	@Override
-	Block getNextBlock() {		
-		if (!allBlocks.isEmpty()) { //start the next pre-created training block
-			return super.getNextBlock();
-		} else { //no more pre-created training blocks, create a new one and start it
-			return Block.createTrainingBlock();
-		}
 	}
 	
 	@Override
