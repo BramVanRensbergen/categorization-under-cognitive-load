@@ -83,7 +83,9 @@ public class ExperimentPanel extends JPanel {
 		feedbackContainer.setFont(Text.FONT_INSTRUCTIONS);
 		feedbackContainer.setHorizontalAlignment(SwingConstants.CENTER);
 		int feedbackWidth = Math.max(Input.feedbackRight.getIconWidth(), Input.feedbackWrong.getIconWidth());
+		feedbackWidth = Math.min(w, 800);
 		int feedbackHeight = Math.max(Input.feedbackRight.getIconHeight(), Input.feedbackWrong.getIconHeight());
+		feedbackHeight = Math.min(h, 600);
 		feedbackContainer.setBounds(w / 2 - feedbackWidth / 2, h / 2 - feedbackHeight / 2, feedbackWidth, feedbackHeight); //centered
 		
 		feedbackDoneButton = new JButton(Text.BTN_CONTINUE);
