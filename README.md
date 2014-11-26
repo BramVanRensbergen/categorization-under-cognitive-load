@@ -6,11 +6,12 @@ Author: Bram Van Rensbergen (mail@bramvanrensbergen.com)
 Source: https://github.com/BramVanRensbergen/categorization-under-cognitive-load
 
 This is the code to an experiment in which participants learn to categorize abstract stimuli, while simultaneously memorizing a dot pattern.
-The experiment was created for personal use (ongoing research), but anyone may use it if they like.
+The experiment was created for personal use (ongoing research of a colleague), but anyone may use it if they like.
 
 
 To use:
 * Download the project, compile it using Java Development Kit, have the participant run it on a computer with Java Runtime Environment installed.
+* Currently supports only JDK/JRE 7, but I'm in the progress of adding Java 8 support.
 * Options can be set in data/options.txt
 * Instructions can be set in data/text.txt
 * Button labels etc. are in Dutch, but it is quite easy to translate them: all language displayed to the user is defined in Text.java. Comments, code, output headers, ... are all in English.
@@ -80,7 +81,7 @@ Flow:
   - For half of participants, data/options.txt/group1name refers to group1, and group2name to group2, for the other half, this is reversed
 * Participants categorize using two buttons, one for each group
   - Which button is on the left, and which is on the right, is also counterbalanced between participants, based on subject number
-  - This done independentlu of the grouplabel balancing
+  - This done independently of the grouplabel balancing
 * Half of the participants receive difficult dot patterns, the other half receive easy dot patterns
   - This is also counterbalanced, based on subject number
 * Which subset of stimuli is displayed during the training phase is randomized per participant
