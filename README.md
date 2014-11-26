@@ -11,7 +11,7 @@ The experiment was created for personal use (ongoing research of a colleague), b
 
 To use:
 * Download the project, compile it using Java Development Kit, have the participant run it on a computer with Java Runtime Environment installed.
-* Currently supports only JDK/JRE 7, but I'm in the progress of adding Java 8 support.
+* Currently supports only JDK/JRE 7, but I'm in the progress of adding Java 8 support. 
 * Options can be set in data/options.txt
 * Instructions can be set in data/text.txt
 * Button labels etc. are in Dutch, but it is quite easy to translate them: all language displayed to the user is defined in Text.java. Comments, code, output headers, ... are all in English.
