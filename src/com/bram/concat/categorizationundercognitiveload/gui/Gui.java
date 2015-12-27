@@ -42,7 +42,7 @@ public class Gui extends JFrame {
 	protected Container bg;
 				
 	/**
-	 * Contains a stimulus, dot-pattern, fixation-cross, pattern-reproduction screen, feedback, or a blank screen.
+	 * Contains either a stimulus, dot-pattern, fixation-cross, pattern-reproduction screen, feedback, or a blank screen.
 	 */
 	public ExperimentPanel xpPane;
 

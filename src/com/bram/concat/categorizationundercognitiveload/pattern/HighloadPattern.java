@@ -28,10 +28,10 @@ import com.bram.concat.categorizationundercognitiveload.pattern.validity.MirrorA
 import com.bram.concat.categorizationundercognitiveload.pattern.validity.NoAdjacencies;
 
 /**
- * Create a random pattern of four dots in a 4x4 matrix, fulfilling three conditions:
+ * A random pattern of four dots in a 4x4 matrix, fulfilling three conditions:
  * 1) no two vertically or horizontally adjacent dots, and no three or four dots in either diagonal (see {@code validity.NoAdjacencies})
  * 2) CRC is below the cutoff value (see {@code validity.CRC})
- * 3) Rotating the pattern by 90 deg in any direction, and/or mirroring the pattern, results in eight unique pattern (see {@code validity.MirrorAndRotation})
+ * 3) Mirroring or rotating the pattern may not result in a duplicate (see {@code validity.MirrorAndRotation})
  */
 public class HighloadPattern extends Pattern {	
 	public HighloadPattern() {
@@ -61,12 +61,16 @@ public class HighloadPattern extends Pattern {
 		if (!CRC.validByCrc(squares)) {
 			return createPattern(); //CRC not below the threshold
 		}
+		
 		if (!NoAdjacencies.validByAdjacencies(squares)) {
 			return createPattern();  //2 adjacent dots, or 3 or 4 dots in either diagonal
 		}
+		
 		if (!MirrorAndRotation.validByMirroring(squares)) {
 			return createPattern(); //mirroring or rotating the pattern creates at least one duplicate
 		}
+		
+		//all criteria upheld -> pattern is valid!
 		return squares;
 	}		
 }

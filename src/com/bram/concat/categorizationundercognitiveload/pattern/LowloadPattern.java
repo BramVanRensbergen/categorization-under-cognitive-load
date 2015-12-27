@@ -21,7 +21,8 @@ package com.bram.concat.categorizationundercognitiveload.pattern;
 import com.bram.concat.categorizationundercognitiveload.pattern.grid.Grid;
 
 /**
- * Create a pattern of four dots, all on the same line or column (which line/column is randomized). 
+ * A pattern of four dots in a 4x4 grid, with all dots on the same line or column (which line/column is randomized). 
+ * 
  * Randomization was verified: 1000000 runs returns r1/r2/r3/r4/c1/c2/c3/c4: 124523/125240/125266/125180/125350/124737/125087/124617 
  */
 public class LowloadPattern extends Pattern {	

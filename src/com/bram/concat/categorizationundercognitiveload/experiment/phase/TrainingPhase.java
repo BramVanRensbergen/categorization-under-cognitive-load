@@ -32,7 +32,7 @@ import com.bram.concat.categorizationundercognitiveload.pattern.Pattern;
 
 /**
  * In the first phase of the experiment, participants learn to categorize the stimuli.
- * After each trial, they receive feedback on whether they had classified it correctly.
+ * After each trial, they receive feedback on whether they had classified the stimulus in it correctly.
  * If participants attain a high enough accuracy, the experiment moves to the test phase.
  */
 public class TrainingPhase extends ExperimentPhase {
@@ -44,7 +44,7 @@ public class TrainingPhase extends ExperimentPhase {
 	private List<Double> completedBlockAccuracy;
 	
 	/**
-	 * Keep a list of the accuracy of all trials in the current block. Each value is either 1 (ss categorized correctly) or 0.
+	 * Keep a list of the accuracy of all trials in the current block. Each value is either 1 (participant categorized correctly) or 0.
 	 */
 	private List<Integer> currentBlockTrialAccuracy;
 	
@@ -86,8 +86,7 @@ public class TrainingPhase extends ExperimentPhase {
 	@Override
 	void finishPhase() {
 		Experiment.startTestPhase();
-	}
-	
+	}	
 
 	/**
 	 * Attempt to start the next block in this phase.
@@ -214,7 +213,7 @@ public class TrainingPhase extends ExperimentPhase {
 	} 	
 	
 	/**
-	 * Show the screen that allows the user to reproduce the pattern he/she recalls.
+	 * Show the screen that allows the participant to reproduce the pattern he/she recalls.
 	 */
 	private void showPatternReproduction() {		
 		Pattern.reproductionPattern.clearDots();	
@@ -227,7 +226,7 @@ public class TrainingPhase extends ExperimentPhase {
 	 */
 	public void correctPatternReproduction() {
 		int[] originalDots = currentTrialGroup.pattern.dotArray;     //original pattern, presented at the beginning of the trial
-		int[] responseDots = Pattern.reproductionPattern.computeDotArray(); //pattern reproduced by the ss
+		int[] responseDots = Pattern.reproductionPattern.computeDotArray(); //pattern reproduced by the participant
 
 		int hits = 0; 					//nb of dots correctly reproduced
 		int misses = 0; 				//nb of dots that were not reproduced

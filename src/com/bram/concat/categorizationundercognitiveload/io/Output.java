@@ -80,7 +80,7 @@ public class Output {
 	};
 
 	/**
-	 * Create a datafile for the current user; filename contains student number, age, gender, date, and time.
+	 * Create a datafile for the current participant; filename contains student number, age, gender, date, and time.
 	 */
 	public static void initializeWriting(String filename) {
 		File outputdir = new File(Options.dirOutput);
@@ -101,6 +101,9 @@ public class Output {
 		}
 	}
 
+	/**
+	 * Write a trial's response to the participant's output file
+	 */
 	public static void writeResponse(Trial t, String response, int RT) {
 		ExperimentPhase phase = Experiment.currentPhase;		
 		String[] entry = {
@@ -127,6 +130,9 @@ public class Output {
 		writeData(entry, true);		
 	}
 	
+	/**
+	 * Write the participant's reproduced pattern to disk, along with accuracy etc.
+	 */
 	public static void writePatternResponse(String patternLoad, String originalPattern, String reproducedPattern, boolean patternWasCorrect, 
 			int patternHits, int patternMisses, int patternFalseAlarms) {
 		String[] entry = {
@@ -152,9 +158,11 @@ public class Output {
 		
 		try {	 
 			out = new PrintWriter(new FileWriter(outputFilename,true)); //open the file
+			
 			if (startOnNewLine) {
 				out.println(); //start new line
 			}
+			
 			out.append(joined); //append the string
 			out.close();   //close file
 		} catch (IOException e) { 

@@ -32,7 +32,7 @@ public class TestPhase extends ExperimentPhase{
 	
 	/**
 	 * After half of the blocks, display a break screen.
-	 * This boolean is {@code TRUE} if we've displayed this screen yet.
+	 * This boolean is {@code TRUE} if we've displayed this screen already.
 	 */
 	boolean displayedHalfwayInstructions;
 	

@@ -43,6 +43,7 @@ public abstract class CRC {
 	
 	/**
 	 * Calculate the CRC value of the indicated pattern.
+	 * Algorithm obtained from the Ichikawa paper mentioned above.
 	 * @param squares The pattern to investigate
 	 * @return	The CRC value of the indicated pattern.
 	 */
@@ -54,7 +55,7 @@ public abstract class CRC {
 			double pi = 0; //nb of dots in this row divided by total number of dots
 			
 			for (int col = 0; col < 4; col++) {
-				pi += squares[row][col];
+				pi += squares[row][col]; //squares contains a 1 for cells with a dot, and a 0 for cells without
 			}
 			
 			pi = pi / 4;

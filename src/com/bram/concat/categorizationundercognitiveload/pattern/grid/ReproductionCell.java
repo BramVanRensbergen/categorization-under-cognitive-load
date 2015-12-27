@@ -23,7 +23,7 @@ import java.awt.event.ActionListener;
 
 /**
  * A cell of the 4x4 grid that can be clicked by the user to add/remove dots.
- * This allows the user to recreate a pattern they previously memorized.
+ * This allows the user to recreate the pattern they previously memorized.
  */
 @SuppressWarnings("serial")
 public class ReproductionCell extends Cell implements ActionListener {

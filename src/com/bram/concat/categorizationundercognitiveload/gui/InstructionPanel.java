@@ -94,9 +94,9 @@ public class InstructionPanel extends JPanel {
 		add(nextButton);
 		
 		int buttonWidth = 120;
-		mainButton.setBounds((int) (Options.screenSize.getWidth() / 2 - buttonWidth / 2), height + 125, buttonWidth, 35); 	
-		previousButton.setBounds((int) (Options.screenSize.getWidth() / 2 - 120 / 2 - buttonWidth), height + 125, buttonWidth, 35); 	 
-		nextButton.setBounds((int) (Options.screenSize.getWidth() / 2 + 120 / 2), height + 125, buttonWidth, 35); 	
+		mainButton.setBounds(		(int)(Options.screenSize.getWidth() / 2 - buttonWidth / 2), 		height + 125, buttonWidth, 35); 	
+		previousButton.setBounds(	(int)(Options.screenSize.getWidth() / 2 - 120 / 2 - buttonWidth),	height + 125, buttonWidth, 35); 	 
+		nextButton.setBounds(		(int)(Options.screenSize.getWidth() / 2 + 120 / 2), 				height + 125, buttonWidth, 35); 	
 		
 		textPane.setCaretPosition(0); //scroll to top
 	}
@@ -179,7 +179,7 @@ public class InstructionPanel extends JPanel {
 	/**
 	 * Display the indicated text.
 	 */
-	private void setInstructions(String text){
+	private void setInstructions(String text) {
 		Experiment.gui.showCursor();
 		Experiment.gui.bg.removeAll(); 
 		textPane.setText(text);	

@@ -49,30 +49,31 @@ public abstract class Input {
 	/**
 	 * Read the instructions and some other text from {@code Options.TEXT_FILE}.
 	 * The file contains several segments, each preceded by {@code @DEFINE <segmentname>}. After this, a number of lines containing the text of that segment.
-	 * The first segment, textInstructions, is special in that in can contain multiple pages (each of which is preceeded by {@code @DEFINE textInstructions}
+	 * The first segment, textInstructions, is special in that in can contain multiple pages (each of which is preceded by {@code @DEFINE textInstructions}
 	 */
 	public static void readText() {
 		File optionsFile = new File(Options.TEXT_FILE);
 		
 		try {
 			BufferedReader fReader = new BufferedReader(new InputStreamReader(new FileInputStream(optionsFile), "UTF-8"));
-            String line;				//will contain  one line of the text file
-            String segmentName = null; 	//name of the segment (i.e. main instructions) we are currently reading
-            String segment = null;		//will contain all lines belonging to one 'segment', such as the main instructions
+            String line;				// will contain  one line of the text file
+            String segmentName = null; 	// name of the segment (e.g., main instructions) we are currently reading
+            String segment = null;		// will contain all lines belonging to one 'segment', such as the main instructions
             
             while ((line = fReader.readLine()) != null) {
             	if (line.trim().startsWith("@DEFINE")) { //start of new segment            		
             		
-            		if (segmentName != null) {  //not the first segment, being here means previous segment was finished, so submit it
+            		if (segmentName != null) {  // this is not the first segment; being here means previous segment was finished, so submit it
             			Text.setText(segmentName, segment);
             		}
             		
-            		segmentName = line.replace("@DEFINE", "").split("//")[0].trim();
+            		segmentName = line.replace("@DEFINE", "").split("//")[0].trim(); //get the name
             		segment = "";
-            	} else {
+            		
+            	} else { //continue existing segment
             		
             		if (!line.trim().startsWith("/") && !line.trim().startsWith("*")){ //ignore comment lines
-            			segment = segment + line + "\n"; //newline gets replaced with <br> for those segments that support it, in Text.setText().            			
+            			segment = segment + line + "\n"; //newline gets replaced with <br> for segments that support html, in Text.setText().            			
             		}
             	}          	
             }
@@ -84,19 +85,20 @@ public abstract class Input {
 	}
 	
 	/**
-	 * Read options from {@code Options.OPTION_FILE}, which will overwrite default options in {@code Options}.
+	 * Read options from {@code Options.OPTION_FILE}, which will overwrite the default options in {@code Options}.
 	 */
 	public static void readAndSetOptions() {
 		File optionsFile = new File(Options.OPTION_FILE);
 		
 		try {
 			BufferedReader fReader = new BufferedReader(new InputStreamReader(new FileInputStream(optionsFile), "UTF-8"));
-            String line;			//will contain  one line of the text file
-            String[] splitline;		//will contain the line, without comments, split by "="
+            String line;			// will contain  one line of the text file
+            String[] splitline;		// will contain the line, without comments, split by "="
             
             while ((line = fReader.readLine()) != null) {
             	line = line.trim();
-            	if(!line.startsWith("/") && !line.startsWith("*") && line.contains("=")) { //ignore comment lines and lines without a define
+            	
+            	if (!line.startsWith("/") && !line.startsWith("*") && line.contains("=")) { //ignore comment lines and lines without a define
             		splitline = line.split("=");
                 	Options.setOption(splitline[0].trim(), splitline[1].trim());
             	}            	
@@ -109,7 +111,7 @@ public abstract class Input {
 	}
 	
 	/**
-	 * Read all images that will be used from disk.
+	 * Read all images that will be used, from disk.
 	 */
 	public static void readImages() throws IOException {				
 		List<File> allGroup1files = getImageFiles(Options.dirGroup1Stimuli);

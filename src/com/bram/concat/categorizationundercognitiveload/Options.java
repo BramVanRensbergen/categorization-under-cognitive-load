@@ -51,7 +51,7 @@ public abstract class Options {
 	 * Used only during development; should ALWAYS be set to {@code TRUE} when an actual participant is using the experiment.
 	 * When {@code TRUE}, options in {@code OPTION_FILE} are ignored, and the program runs with default, fast, settings.
 	 */
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 		
 	/**
 	 * True: GUI has no titlebar, close-buttons, etc.
@@ -70,8 +70,9 @@ public abstract class Options {
 	
 	public static final Color backgroundColor = Color.white;
 	
+	
 	/*
-	 * These options are set when the participant is created.
+	 * The following three options are set when the participant is created.
 	 */
 	
 	/**
@@ -89,8 +90,9 @@ public abstract class Options {
 	 */
 	public static boolean reversedButtonPosition;
 	
+	
 	/*
-	 * THESE OPTIONS CAN ALL BE OVERWRITTEN BY OPTIONS FOUND IN OPTIONS_FILE
+	 * THE FOLLOWING OPTIONS CAN ALL BE OVERWRITTEN BY TEXT IN OPTIONS_FILE
 	 */
 
 	/**
@@ -160,7 +162,7 @@ public abstract class Options {
 	 * Data files are written out to this directory.
 	 * Per participant, one file is created.
 	 */
-	public static String dirOutput    = "data/output";
+	public static String dirOutput = "data/output";
 	
 	/**
 	 * File containing the stimuli that will be used in the experiment.
@@ -216,7 +218,7 @@ public abstract class Options {
 				case "trainingBlocksAboveCrit": 	trainingBlocksAboveCrit 	= Integer.parseInt(value); 		break;
 				case "trainingCriterion": 			trainingCriterion 			= Double.parseDouble(value); 	break;
 				case "trainingStimuliPerGroup": 	trainingStimuliPerGroup 	= Integer.parseInt(value); 		break;
-				case "maxTrainingBlocksAmount": 	maxTrainingBlocksAmount = Integer.parseInt(value); 		break;
+				case "maxTrainingBlocksAmount": 	maxTrainingBlocksAmount 	= Integer.parseInt(value); 		break;
 				case "testBlocksAmount": 			testBlocksAmount 			= Integer.parseInt(value); 		break;
 				case "trialsPerTrialGroup": 		trialsPerTrialGroup 		= Integer.parseInt(value); 		break;
 				case "fileFeedbackCorrect": 		fileFeedbackCorrect 		= value; 						break;

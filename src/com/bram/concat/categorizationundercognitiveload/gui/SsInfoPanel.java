@@ -128,7 +128,7 @@ public class SsInfoPanel extends JPanel {
 	}
 	
 	/**
-	 * Listener to handle the user's info: if all is in order, proceed; if not, display what is not, and remain here.
+	 * Listener to handle the participant's info: if all is in order, proceed; if not, display what is not, and remain here.
 	 */
 	private class infoListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {	
@@ -137,29 +137,29 @@ public class SsInfoPanel extends JPanel {
 			
 			int ssNb = -1;
 			try {
-				ssNb = Integer.parseInt(snTextField.getText()); //read age from its text field, check if it is a valid number
-			} catch(NumberFormatException error) {  //wasn't a valid number: age remains at -1
-				errorString += Text.FORM_ERROR_ID + "\n\n"; //add error
-				valid = false; //indicate we can't proceed				
+				ssNb = Integer.parseInt(snTextField.getText()); // read age from its text field, check if it is a valid number
+			} catch(NumberFormatException error) {  			// wasn't a valid number: age remains at -1
+				errorString += Text.FORM_ERROR_ID + "\n\n"; 	// add mistake to error string
+				valid = false; 									// indicate we can't proceed				
 			}	
 						
 			int age = -1;
 			try {
-				age = Integer.parseInt(ageTextField.getText()); //read age from its text field, check if it is a valid number
-			} catch(NumberFormatException error) {  //wasn't a valid number: age remains at -1
-				errorString += Text.FORM_ERROR_AGE + "\n\n"; //add error
-				valid = false; //indicate we can't proceed				
+				age = Integer.parseInt(ageTextField.getText()); // read age from its text field, check if it is a valid number
+			} catch(NumberFormatException error) {  			// wasn't a valid number: age remains at -1
+				errorString += Text.FORM_ERROR_AGE + "\n\n"; 	// add mistake to error string
+				valid = false; 									// indicate we can't proceed				
 			}		
 								
-			if (gender == 'x') { //gender hasn't been set yet (or this would be 'm' or 'f')
-				errorString += Text.FORM_ERROR_GENDER + "\n\n"; //add error
-				valid = false; //indicate we can't proceed
+			if (gender == 'x') { 								// gender hasn't been set yet (or this would be 'm' or 'f')
+				errorString += Text.FORM_ERROR_GENDER + "\n\n"; // add mistake to error string
+				valid = false; 									// indicate we can't proceed
 			}
 								
 			if (valid) { //student number, age, and gender are all set correctly: proceed
 				Experiment.createParticipantAndContinue(ssNb, age, gender);
 			} else {
-				JOptionPane.showMessageDialog(null,errorString,"",JOptionPane.ERROR_MESSAGE); //something was not entered correctly: display error, and remain here
+				JOptionPane.showMessageDialog(null,errorString,"",JOptionPane.ERROR_MESSAGE); //something was not entered correctly: display errors, and remain here
 			}
 		}	
 	}

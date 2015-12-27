@@ -46,37 +46,36 @@ public abstract class Experiment {
 	public static void initialize() throws IOException {
 		Input.readAndSetOptions();
 		Input.readText();
-		Input.readImages(); 		  				//read stimuli from disk
-		gui = new Gui();							//create GUI
+		Input.readImages(); 		// read stimuli from disk
+		gui = new Gui();			// create GUI
 		
 		if (!Options.DEBUG) {			
 			gui.showSsInfo();		
 		} else {
-			createParticipantAndContinue(2, 18, 'm'); //create 'default' participant during development
+			createParticipantAndContinue(2, 18, 'm'); // create 'default' participant during development
 		}	
 	}
 	
 	/**
-	 * Create the participant, create his output file, create the trials he will see, initialize the buttons in the experiment (order of which depends on the participant),
+	 * Create the participant, create his output file, create the trials he will see, 
+	 * initialize the buttons in the experiment (order of which depends on the participant),
 	 * and finally, show the instructions.
 	 */
 	public static void createParticipantAndContinue(int ssNb, int age, char gender) {
 		pp = new Participant(ssNb, age, gender);	
 		
-		//create the datafile for the participant
+		//c reate the datafile for the participant
 		Output.initializeWriting(ssNb + "_" + age + "_" + gender + "_" + Text.getDate() + "_" + Text.getTime() + ".txt");
 				
-		//create the trials the participant will see
-		//only done here, not before, as participant number influences the condition of their trials
+		// create the trials the participant will see
+		// only done here, not before, as participant number influences the condition of their trials
 		Experiment.createTrials();	
 				
-		//only done here, as which buttons is left, and which is right, depends on participant
+		// only done here, as which buttons is left, and which is right, depends on participant
 		gui.xpPane.createCategorizationButtons();
 		
 		Experiment.showInstructions();
-
-	}
-	
+	}	
 		
 	/**
 	 * Show the experimental screen, and display the next trial.

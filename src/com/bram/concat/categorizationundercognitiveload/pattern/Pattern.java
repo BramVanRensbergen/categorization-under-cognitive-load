@@ -58,7 +58,7 @@ public abstract class Pattern {
 	public static NoloadPattern reproductionPattern;
 		
 	/**
-	 * "High", "Low", or "None"; used when writing away the data, to denote the difficulty of the pattern.
+	 * "HIGH_LOAD", "LOW_LOAD", or "NO_LOAD"; used when writing away the data, to denote the difficulty of the pattern.
 	 */
 	public String loadString;
 	
@@ -74,7 +74,7 @@ public abstract class Pattern {
 	
 	protected Pattern(int load) {
 		if (load == NOLOAD) {
-			loadString = "None";
+			loadString = "NO_LOAD";
 		} else if (load == LOWLOAD) {
 			loadString = "LOW_LOAD";
 		} else if (load == HIGHLOAD) {

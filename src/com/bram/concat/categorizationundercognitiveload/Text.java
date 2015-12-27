@@ -28,7 +28,6 @@ import com.bram.concat.categorizationundercognitiveload.Options.IncorrectOptionE
 /**
  * Helper class that contains text displayed in the instructions and in the goodbye message, font settings, datafile headers, ...
  * All text that is displayed to the participant is written here, so if you wish to translate the experiment, you should only need this file.
- * Some
  */
 public abstract class Text {
 

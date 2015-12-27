@@ -48,7 +48,8 @@ public class Cell extends JButton {
 		dot = new DotIcon((int) (Options.GRID_PIXELSIZE * 0.4));
 		setBackground(Color.white);
 		setFocusable(false);
-		setEnabled(false);		
+		setEnabled(false);
+		
 		if (containsDot) {
 			addDot();
 		} else {

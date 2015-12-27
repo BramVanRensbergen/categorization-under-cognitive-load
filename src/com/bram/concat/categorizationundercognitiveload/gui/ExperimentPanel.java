@@ -35,15 +35,18 @@ import com.bram.concat.categorizationundercognitiveload.io.Input;
 import com.bram.concat.categorizationundercognitiveload.pattern.Pattern;
 
 /**
- * Panel used to display the experiment; contains a stimulus/image, feedback, a dot-pattern, a fixation-cross, a pattern-reproduction screen, or a blank screen.
+ * Panel used to display the experiment; contains either a stimulus/image, feedback, a dot-pattern, a fixation-cross, a pattern-reproduction screen, or a blank screen.
  */
 @SuppressWarnings("serial")
 public class ExperimentPanel extends JPanel {				
 
+	/**
+	 * Contains a small cross.
+	 */
 	private JLabel fixationCross;
 	
 	/**
-	 * Will hold the figure the participant will judge durign a trial.
+	 * Holds the figure the participant will judge during a trial.
 	 */
 	private JLabel stimulusContainer;
 	
@@ -53,17 +56,18 @@ public class ExperimentPanel extends JPanel {
 	private JButton group1button, group2button;
 	
 	/**
-	 * Will hold feedback on the trial (right/wrong).
+	 * Holds feedback on the trial: i.e. whether the participant categorized correctly.
 	 */
 	private JLabel feedbackImageContainer;
 	
 	/**
-	 * Will contain average accuracy for the past block, or the message that we are about to start a new block
+	 * Contains average accuracy for the past block, or the message that we are about to start a new block.
 	 */
 	private JLabel messageContainer;
 	
 	/**
-	 * Used to move on the next block, when participant is presented with % correct for the last block.
+	 * Used to move on the next block. 
+	 * Is displayed on the screen where the participant is presented with % correct for the last block.
 	 */
 	private JButton messageDoneButton;	
 	
@@ -73,7 +77,7 @@ public class ExperimentPanel extends JPanel {
 	private MessageDoneListener messageDoneListener;
 	
 	/**
-	 * A button the ss can use to indicate he/she finished reproducing the pattern.
+	 * A button the participant can use to indicate he/she finished reproducing the pattern.
 	 */
 	private JButton patternReproductionDoneButton; 
 	
@@ -158,7 +162,7 @@ public class ExperimentPanel extends JPanel {
 	}
 	
 	/**
-	 * Display the indicated pattern, so the ss can memorize it.
+	 * Display the indicated pattern, so the participant can memorize it.
 	 * @param pattern The pattern to be displayed.
 	 */
 	public void showPattern(Pattern pattern) {
@@ -171,7 +175,7 @@ public class ExperimentPanel extends JPanel {
 	}		
 	
 	/**
-	 * Display the indicated stimulus, which the participant will categorize.
+	 * Display the indicated stimulus, which the participant can then categorize.
 	 */
 	public void showStimulus(Stimulus stimulus) {
 		removeAll();
@@ -188,11 +192,13 @@ public class ExperimentPanel extends JPanel {
 	 */
 	public void showTrialFeedback(boolean correct) {
 		feedbackImageContainer.setText("");
+		
 		if (correct) {
 			feedbackImageContainer.setIcon(Input.feedbackRight);
 		} else {
 			feedbackImageContainer.setIcon(Input.feedbackWrong);
 		}
+		
 		removeAll();
 		add(feedbackImageContainer);
 		validate();
@@ -201,16 +207,16 @@ public class ExperimentPanel extends JPanel {
 	
 	public void showMessage(String message, String actionToPerform) {
 		messageDoneListener.actionToPerform = actionToPerform;
-		messageContainer.setText(message);
-		removeAll();
+		messageContainer.setText(message);		
+		removeAll();		
 		add(messageContainer);
-		add(messageDoneButton);
+		add(messageDoneButton);		
 		validate();
 		repaint();
 	}
 
 	/**
-	 * Show the screen in which the ss can reproduce the previously memorized pattern.
+	 * Show the screen in which the participant can reproduce the previously memorized pattern.
 	 * Only used during training phase.
 	 */
 	public void showPatternReproduction() {		
@@ -221,6 +227,10 @@ public class ExperimentPanel extends JPanel {
 		repaint();	
 	}
 	
+	/**
+	 * Used to handle the participant's response i.e. their indication to which group a stimulus belongs.
+	 *
+	 */
 	private class ResponseListener implements ActionListener {
 		private int groupNb;		
 		
@@ -238,7 +248,7 @@ public class ExperimentPanel extends JPanel {
 	
 	/**
 	 * Depending on the type of message that is being displayed, clicking the button beneath it should bring you back to different parts of the program.
-	 * TODO: remove this monstrosity and replace it with a decent solution...
+	 * Not exactly an elegant approach...
 	 */
 	private class MessageDoneListener implements ActionListener {
 		private String actionToPerform = "none";		
