@@ -57,9 +57,9 @@ public class SsInfoPanel extends JPanel {
 	SsInfoPanel() {
 		setLayout(null);		//we use an absolute layout
 		setBackground(Options.backgroundColor);
-		int labelWidth = 250;	//width of each label
-		int formWidth = 125;	//width of each form entry
-		int h = 25; 			//height of each field
+		int labelWidth = 270;	//width of each label
+		int formWidth = 205;	//width of each form entry
+		int h = 35; 			//height of each field
 		int space = 5; 			//space between fields
 		
 		JLabel snLabel = new JLabel(Text.FORM_ID, JLabel.TRAILING);	//create text-labels	
@@ -72,6 +72,12 @@ public class SsInfoPanel extends JPanel {
 	
 		JButton infoDone = new JButton(Text.BTN_READY); //add ok button, to go to next screen
 		infoDone.addActionListener(new infoListener()); //make sure pressing the button will only advance to the next screen when all info has been entered
+		
+		snLabel.setFont(Text.FONT_INSTRUCTIONS);
+		snTextField.setFont(Text.FONT_INSTRUCTIONS);
+		ageLabel.setFont(Text.FONT_INSTRUCTIONS);
+		ageTextField.setFont(Text.FONT_INSTRUCTIONS);
+		sexLabel.setFont(Text.FONT_INSTRUCTIONS);
 		
 		add(snLabel); //add everything to the panel
 		add(snTextField);
@@ -107,13 +113,15 @@ public class SsInfoPanel extends JPanel {
 	    	gender = 'm'; }   
 	    }); 
 	    maleButton.setBackground(Options.backgroundColor);
-	    
+	    maleButton.setFont(Text.FONT_INSTRUCTIONS);
+
 	    JRadioButton femaleButton = new JRadioButton(Text.FORM_FEMALE); //create the 'female' button
 	    femaleButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e)   { 
 	    	//if button is clicked, set gender to female
 	    	gender = 'f'; }   
 	    }); 
 	    femaleButton.setBackground(Options.backgroundColor);
+	    femaleButton.setFont(Text.FONT_INSTRUCTIONS);
 	    
 	    ButtonGroup sexGroup = new ButtonGroup(); //group the two buttons (so clicking one de-selects the other)
 	    sexGroup.add(maleButton);
