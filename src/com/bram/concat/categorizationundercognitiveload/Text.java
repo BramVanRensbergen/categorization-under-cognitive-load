@@ -81,7 +81,7 @@ public abstract class Text {
 	/**
 	 * Label for the ID form entry.
 	 */
-	public static final String FORM_ID = "Proefpersoon-nr (vraag aan proefleider): ";
+	public static final String FORM_ID = "Proefpersoon-nr: ";
 	
 	/**
 	 * Label for the age form entry.
